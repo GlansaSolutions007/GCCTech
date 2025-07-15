@@ -1,0 +1,34 @@
+mycarbuddy/
+├── assets/                 # Images, fonts, icons, etc.
+│   ├── images/
+│   ├── icons/
+│   └── fonts/
+│
+├── src/                    # Main app logic starts here
+│   ├── components/         # Reusable UI components (Button, Card, Header)
+│   ├── constants/          # Colors, strings, enums, routes
+│   ├── contexts/           # Auth context, user context, etc.
+│   ├── navigation/         # App navigation (stack, tabs, role-based)
+│   ├── screens/            # All screens grouped by role/module
+│   │   ├── Customer/
+│   │   │   ├── HomeScreen.js
+│   │   │   ├── BookServiceScreen.js
+│   │   │   └── ProfileScreen.js
+│   │   ├── Technician/
+│   │   │   ├── AssignedJobsScreen.js
+│   │   │   └── CompleteJobScreen.js
+│   │   └── Common/
+│   │       ├── LoginScreen.js
+│   │       └── RegisterScreen.js
+│   ├── services/           # API calls using Axios or Fetch
+│   │   └── authService.js
+│   │   └── bookingService.js
+│   ├── hooks/              # Custom React hooks
+│   │   └── useAuth.js
+│   ├── utils/              # Helper functions (validators, formatters)
+│   └── config/             # Environment, API base URLs, constants
+│
+├── App.js                  # Root component
+├── app.json                # Expo config
+├── package.json            # Dependencies and scripts
+└── README.md
