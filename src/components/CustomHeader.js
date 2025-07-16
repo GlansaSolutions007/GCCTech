@@ -9,19 +9,19 @@ export default function CustomHeader({ navigation }) {
 
   const insets = useSafeAreaInsets();
   return (
-    <View style={[styles.headerContainer,globalStyles.bgprimary, { paddingTop: insets.top + 10 }]}>
+    <View style={[styles.headerContainer,globalStyles.bgcontainer, { paddingTop: insets.top + 10 }]}>
       <View style={styles.topRow}>
         <View>
-          <CustomText style={[globalStyles.textWhite,globalStyles.mt1]}>Hello User</CustomText>
+          <CustomText style={[globalStyles.f14Bold,globalStyles.mt1]}>Hello User</CustomText>
           <Pressable>
-            <CustomText style={[globalStyles.f12Bold,globalStyles.mt1,globalStyles.textWhite]}>
+            <CustomText style={[globalStyles.f10Regular,globalStyles.mt1]}>
               Hyderabad, Telangana <Ionicons name="chevron-down" size={14} />
             </CustomText>
           </Pressable>
         </View>
 
         <Pressable onPress={() => console.log("Notifications")}>
-          <Ionicons name="notifications-outline" size={24} style={globalStyles.textWhite} />
+          <Ionicons name="notifications-outline" size={24}  />
         </Pressable>
       </View>
     </View>

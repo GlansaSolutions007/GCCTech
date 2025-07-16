@@ -1,36 +1,85 @@
-import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import { useAuth } from '../../contexts/AuthContext';
-import CustomText from '../../components/CustomText';
-import { useNavigation } from '@react-navigation/native';
+import React from "react";
+import { View, Image, StyleSheet, Dimensions } from "react-native";
+import CustomText from "../../components/CustomText";
+import globalStyles from "../../styles/globalStyles";
+import { color } from "../../styles/theme";
+import profilepic from "../../../assets/images/person.jpg";
+
+const { width } = Dimensions.get("window");
 
 export default function ProfileScreen() {
-  const { logout } = useAuth();
-  const navigate = useNavigation();
-
-  const handleLogout = () => {
-    navigate.navigate('Login')
-  };
-
   return (
-    <View style={styles.container}>
-      <CustomText style={styles.heading}>Profile Screen</CustomText>
+    <View style={[globalStyles.bgwhite, globalStyles.p4, styles.container]}>
+      <View style={[styles.card, globalStyles.bgprimary]}>
+        {/* Avatar */}
+        <View style={styles.avatarWrapper}>
+          <Image source={profilepic} style={styles.avatar} />
+        </View>
 
-      <TouchableOpacity style={styles.button} onPress={handleLogout}>
-        <CustomText style={styles.buttonText}>Logout</CustomText>
-      </TouchableOpacity>
+        {/* Name */}
+        <CustomText style={[globalStyles.f20ExtraBold, globalStyles.textWhite, globalStyles.mb1]}>
+          Naveen Nagam
+        </CustomText>
+
+        {/* Title */}
+        <CustomText style={[globalStyles.f14Light, globalStyles.textWhite, globalStyles.mb4]}>
+          Software Engineer
+        </CustomText>
+
+        {/* Email */}
+        <View style={styles.infoRow}>
+          <CustomText style={[globalStyles.f14Regular, globalStyles.textWhite]}>Email</CustomText>
+          <CustomText style={[globalStyles.f16SemiBold, globalStyles.textWhite]}>
+            naveen@example.com
+          </CustomText>
+        </View>
+
+        {/* Phone */}
+        <View style={styles.infoRow}>
+          <CustomText style={[globalStyles.f14Regular, globalStyles.textWhite]}>Phone</CustomText>
+          <CustomText style={[globalStyles.f16SemiBold, globalStyles.textWhite]}>
+            +91 7780290335
+          </CustomText>
+        </View>
+      </View>
     </View>
   );
 }
-
 const styles = StyleSheet.create({
-  container: { flex: 1, justifyContent: 'center', alignItems: 'center' },
-  heading: { fontSize: 24, marginBottom: 20 },
-  button: {
-    backgroundColor: '#FF3333',
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-    borderRadius: 8,
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
-  buttonText: { color: 'white', fontSize: 16 },
+  card: {
+    width: width - 40,
+    borderRadius: 16,
+    padding: 24,
+    alignItems: "center",
+    elevation: 6,
+    shadowColor: "#000",
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    shadowOffset: { width: 0, height: 5 },
+  },
+  avatarWrapper: {
+    width: 110,
+    height: 110,
+    borderRadius: 55,
+    borderWidth: 3,
+    borderColor: "#fff",
+    marginBottom: 16,
+    overflow: "hidden",
+  },
+  avatar: {
+    width: "100%",
+    height: "100%",
+    resizeMode: "cover",
+  },
+  infoRow: {
+    width: "100%",
+    paddingVertical: 12,
+    borderTopWidth: 1,
+    borderTopColor: "rgba(255,255,255,0.3)",
+  },
 });

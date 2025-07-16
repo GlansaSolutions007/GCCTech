@@ -8,6 +8,9 @@ export default StyleSheet.create({
   flexrow: {
     flexDirection: "row",
   },
+  flex: {
+    display: "flex",
+  },
   justifysb: {
     justifyContent: "space-between",
   },
@@ -56,23 +59,37 @@ export default StyleSheet.create({
   w60: {
     width: "60%",
   },
+  divider: {
+    height: 1.5,
+    backgroundColor: color.neutral[200],
+    marginVertical: 10,
+  },
+
+  //  divider: {
+  //     height: 1,
+  //     backgroundColor: "#ffffff80",
+  //     marginVertical: 12,
+  //   },
 
   // Bootstrap styles .............. end
 
   // Default styles ----------- start
 
   container: {
-    // backgroundColor: color.white,
     flex: 1,
     paddingHorizontal: 20,
     justifyContent: "center",
   },
+  bgcontainer: {
+    backgroundColor: "#ededed",
+  },
   radius: {
     borderRadius: 8,
   },
+  borderRadiuslarge: {
+    borderRadius: 20,
+  },
   // Default styles .............. end
-
-  
 
   // Color styles ----------- start
   primary: {
@@ -81,8 +98,23 @@ export default StyleSheet.create({
   secondary: {
     color: color.secondary,
   },
-  textWhite:{
+  textWhite: {
     color: color.white,
+  },
+  black: {
+    color: color.black,
+  },
+  neutral100: {
+    color: color.neutral[100],
+  },
+  neutral200: {
+    color: color.neutral[200],
+  },
+  neutral300: {
+    color: color.neutral[300],
+  },
+  neutral500: {
+    color: color.neutral[500],
   },
   // Color styles .............. end
 
@@ -92,6 +124,9 @@ export default StyleSheet.create({
   },
   bgwhite: {
     backgroundColor: color.white,
+  },
+  bgBlack: {
+    backgroundColor: color.black,
   },
   // background color .............. end
 
@@ -215,13 +250,19 @@ export default StyleSheet.create({
   // Login button .............. end
 
   // Card ----------start
-
+  card: {
+    borderRadius: 20,
+    shadowColor: color.black,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.05,
+    shadowRadius: 8,
+    elevation: 3,
+  },
   // Card ............ end
 
   // Modal ---------- Start
 
   // Modal ............ end
-
 
   // Font styles ----------- start
   f10Bold: {
@@ -437,7 +478,6 @@ export default StyleSheet.create({
   f44Regular: {
     ...fonts.heroRegular,
   },
-
 
   f10ExtraLight: {
     ...fonts.tinyExtraLight,
