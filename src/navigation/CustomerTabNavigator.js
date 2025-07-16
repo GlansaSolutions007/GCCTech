@@ -1,25 +1,19 @@
-import React from "react";
 import { Image, Pressable } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import ProfileScreen from "../screens/Common/ProfileScreen";
-import BookServiceScreen from "../screens/Customer/SchedulesTrack";
-import ServiceList from "../screens/Customer/Servicelocations";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import CustomHeader from "../components/CustomHeader";
-import { TaskReports } from "../screens/Customer/TaskReports";
 import { color } from "../styles/theme";
 import dashboard from '../../assets/icons/Navigation/techhom.png'
 import TaskReportsicon from '../../assets/icons/Navigation/reports.png'
 import SchedulesTrackicon from '../../assets/icons/Navigation/schedule.png'
-import servicelocationsicon from '../../assets/icons/Navigation/LocationsPin.png'
+// import servicelocationsicon from '../../assets/icons/Navigation/LocationsPin.png'
 import Profile from '../../assets/icons/Navigation/techProfile.png'
-import Dashboard from "../screens/Customer/Dashboard";
-import SchedulesTrack from "../screens/Customer/SchedulesTrack";
-import Servicelocations from "../screens/Customer/Servicelocations";
-
-
+import Dashboard from "../screens/Dashboard";
+import SchedulesTrack from "../screens/SchedulesTrack";
+import TaskReportsScreen from "../screens/TaskReportsScreen";
+// import Servicelocations from "../screens/Servicelocations";
 const Tab = createBottomTabNavigator();
-
 export default function CustomerTabNavigator({ navigation }) {
   const insets = useSafeAreaInsets();
 
@@ -82,9 +76,9 @@ export default function CustomerTabNavigator({ navigation }) {
     case "Schedules Track":
       iconSource = SchedulesTrackicon;
       break;
-    case "service locations":
-      iconSource = servicelocationsicon;
-      break;
+    // case "service locations":
+    //   iconSource = servicelocationsicon;
+    //   break;
     case "Profile":
       iconSource = Profile;
       break;
@@ -108,9 +102,9 @@ export default function CustomerTabNavigator({ navigation }) {
       })}
     >
       <Tab.Screen name="Dashboard" component={Dashboard} />
-      <Tab.Screen name="Task & Reports"component={TaskReports} />
+      <Tab.Screen name="Task & Reports"component={TaskReportsScreen} />
       <Tab.Screen name="Schedules Track" component={SchedulesTrack} />
-      <Tab.Screen name="service locations" component={Servicelocations} />
+      {/* <Tab.Screen name="service locations" component={Servicelocations} /> */}
       <Tab.Screen name="Profile" component={ProfileScreen} />
     </Tab.Navigator>
   );

@@ -1,9 +1,6 @@
-// src/navigation/TechnicianTabNavigator.js
-import React from "react";
+
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
-import AssignedJobsScreen from "../screens/Technician/AssignedJobsScreen";
-import CompleteJobScreen from "../screens/Technician/CompleteJobScreen";
 import ProfileScreen from "../screens/Common/ProfileScreen";
 
 const Tab = createBottomTabNavigator();
@@ -41,8 +38,6 @@ export default function TechnicianTabNavigator() {
         },
       })}
     >
-      <Tab.Screen name="Assigned Jobs" component={AssignedJobsScreen} />
-      <Tab.Screen name="Complete Job" component={CompleteJobScreen} />
       <Tab.Screen name="Profile" component={ProfileScreen} />
     </Tab.Navigator>
   );

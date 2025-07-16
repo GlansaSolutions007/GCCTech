@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import axios from "axios";
 import { Picker } from "@react-native-picker/picker";
-import CustomText from "../../components/CustomText";
+import CustomText from "../components/CustomText";
 
 export default function SchedulesTrack() {
   const [states, setStates] = useState([]);

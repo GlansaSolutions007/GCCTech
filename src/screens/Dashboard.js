@@ -7,15 +7,12 @@ import {
   ImageBackground,
   StyleSheet,
 } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
-import globalStyles from "../../styles/globalStyles";
-import CTAbannerhome from "../../../assets/images/CTAbannerhome.png";
-import exteriorservice from "../../../assets/images/exteriorservice.png";
-import interiorservice from "../../../assets/images/interiorservice.png";
-import bluecar from "../../../assets/images/bluecar.png";
-import logo from "../../../assets/Logo/logo.png";
-import { color } from "../../styles/theme";
-import CustomText from "../../components/CustomText";
+import globalStyles from "../styles/globalStyles";
+// import exteriorservice from "../../../assets/images/exteriorservice.png";
+// import bluecar from "../../../assets/images/bluecar.png";
+// import logo from "../../../assets/Logo/logo.png";
+import { color } from "../styles/theme";
+import CustomText from "../components/CustomText";
 import { useNavigation } from "@react-navigation/native";
 import { LinearGradient } from 'expo-linear-gradient';
 import * as Device from "expo-device";
@@ -23,9 +20,7 @@ import * as Device from "expo-device";
 export default function Dashboard() {
   const navigation = useNavigation();
 
-  const goToCar = () => {
-    navigation.navigate("InteriorService");
-  };
+
 
   const DeviceId = Device.osInternalBuildId || Device.osBuildId || "unknown-device-id";
 
@@ -36,13 +31,13 @@ export default function Dashboard() {
       contentContainerStyle={{ paddingBottom: 30 }}
     >
       <View style={[styles.banner, globalStyles.mb35]}>
-        <Image source={logo} style={styles.logo} resizeMode="contain" />
+        {/* <Image source={logo} style={styles.logo} resizeMode="contain" /> */}
         <View style={styles.bannerAbsolute}>
-          <Image
+          {/* <Image
             source={bluecar}
             style={styles.carImagePositioned}
             resizeMode="contain"
-          />
+          /> */}
           <CustomText
             style={[styles.bannerSubtitlePositioned, globalStyles.f18Regular]}
           >
@@ -59,7 +54,7 @@ export default function Dashboard() {
         </CustomText>
         <View style={[globalStyles.flexrow, globalStyles.justifysb]}>
           <TouchableOpacity style={styles.card}>
-            <Image source={exteriorservice} style={styles.cardImage} />
+            {/* <Image source={exteriorservice} style={styles.cardImage} /> */}
 
             <LinearGradient
               colors={[color.primary, 'transparent']}
@@ -71,8 +66,8 @@ export default function Dashboard() {
               <CustomText style={[globalStyles.f12Regular, globalStyles.textWhite]}>Service</CustomText>
             </LinearGradient>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.card} onPress={goToCar}>
-            <Image source={interiorservice} style={styles.cardImage} />
+          <TouchableOpacity style={styles.card} >
+            <Image style={styles.cardImage} />
 
             <LinearGradient
               colors={[color.primary, 'transparent']}
@@ -85,49 +80,7 @@ export default function Dashboard() {
             </LinearGradient>
           </TouchableOpacity>
         </View>
-        <ImageBackground
-          source={CTAbannerhome}
-          style={[
-            styles.ctaContainer,
-            globalStyles.radius,
-            globalStyles.p5,
-            globalStyles.mt5,
-          ]}
-          resizeMode="cover"
-        >
-          <View>
-            <View>
-              <CustomText
-                style={[
-                  styles.ctaTitle,
-                  globalStyles.f20Bold,
-                  globalStyles.w60,
-                  globalStyles.textWhite,
-                  globalStyles.f16Bold,
-                ]}
-              >
-                Give your car’s intro to your care buddy
-              </CustomText>
-              <CustomText
-                style={[
-                  globalStyles.w50,
-                  globalStyles.textWhite,
-                  globalStyles.f12Regular,
-                ]}
-              >
-                We’ll remember it, pamper it, and keep it shining.
-              </CustomText>
-            </View>
-          </View>
-          <View style={styles.ctaButtonWrapper}>
-            <TouchableOpacity
-              style={[styles.ctaButton, globalStyles.bgwhite]}
-              onPress={goToCar}
-            >
-              <CustomText style={globalStyles.f16Bold}>Add My Car</CustomText>
-            </TouchableOpacity>
-          </View>
-        </ImageBackground>
+       
       </View>
     </ScrollView>
   );

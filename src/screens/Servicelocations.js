@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { View, Text, ScrollView } from "react-native";
-import globalStyles from "../../styles/globalStyles";
-import CustomText from "../../components/CustomText";
+import globalStyles from "../styles/globalStyles";
+import CustomText from "../components/CustomText";
 
 export default function Servicelocations() {
   const [showAlert, setShowAlert] = useState(false);

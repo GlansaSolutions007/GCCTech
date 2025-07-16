@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, FlatList, Image, TouchableOpacity, StyleSheet, ImageBackground } from "react-native";
-import carData from "../../../assets/data/carBrands.json";
+import carData from "../../assets/data/carBrands.json";
 import { useNavigation } from "@react-navigation/native";
-import SearchBox from "../../components/SearchBox";
-import globalStyles from "../../styles/globalStyles";
-import CustomText from "../../components/CustomText";
-import { color } from "../../styles/theme";
+import SearchBox from "../components/SearchBox";
+import globalStyles from "../styles/globalStyles";
+import CustomText from "../components/CustomText";
+import { color } from "../styles/theme";
 import axios from "axios";
-import Loader from "../../components/Loader";
+import Loader from "../components/Loader";
 
 export default function MyCars() {
     const [brands, setBrands] = useState([]);
@@ -63,10 +63,7 @@ export default function MyCars() {
     const renderBrand = ({ item }) => (
         <TouchableOpacity
             style={styles.card}
-            onPress={() => {
-                navigation.navigate("CarModels", { models: item.models, brand: item.brand })
-                console.log("Selected brand:", item.brand);
-            }}
+           
         >
             <ImageBackground
                 source={{ uri: item.logo }}
