@@ -2,7 +2,7 @@ import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import CustomerTabNavigator from "./CustomerTabNavigator";
 import CarModels from "../screens/Customer/CarModels";
-import { MyCarsList } from "../screens/Customer/MyCarsList";
+// import { MyCarsList } from "../screens/Customer/MyCarsList";
 import MyCars from "../screens/Customer/MyCars";
 import { MyCarDetails } from "../screens/Customer/MyCarDetails";
 import RegisterScreen from "../screens/Common/RegisterScreen";

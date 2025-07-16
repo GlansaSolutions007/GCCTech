@@ -3,6 +3,7 @@ import { TextInput } from "react-native-gesture-handler";
 export const color = {
   // Brand Colors
   primary: '#136D6E',
+  primaryLight: '#178F91',
   secondary: '#25878F',
 
   // Backgrounds

@@ -3,7 +3,7 @@ import { View, Text, ScrollView } from "react-native";
 import globalStyles from "../../styles/globalStyles";
 import CustomText from "../../components/CustomText";
 
-export default function ServiceList() {
+export default function Servicelocations() {
   const [showAlert, setShowAlert] = useState(false);
   return (
     <ScrollView>

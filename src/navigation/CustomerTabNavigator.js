@@ -1,18 +1,22 @@
 import React from "react";
 import { Image, Pressable } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { Ionicons } from "@expo/vector-icons";
-
-import HomeScreen from "../screens/Customer/HomeScreen";
 import ProfileScreen from "../screens/Common/ProfileScreen";
-import BookServiceScreen from "../screens/Customer/BookServiceScreen";
-import ServiceList from "../screens/Customer/ServiceList";
+import BookServiceScreen from "../screens/Customer/SchedulesTrack";
+import ServiceList from "../screens/Customer/Servicelocations";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import CustomHeader from "../components/CustomHeader";
-import { MyCarsList } from "../screens/Customer/MyCarsList";
-import globalStyles from "../styles/globalStyles";
+import { TaskReports } from "../screens/Customer/TaskReports";
 import { color } from "../styles/theme";
-import logo from '../../assets/Logo/logo.png'
+import dashboard from '../../assets/icons/Navigation/techhom.png'
+import TaskReportsicon from '../../assets/icons/Navigation/reports.png'
+import SchedulesTrackicon from '../../assets/icons/Navigation/schedule.png'
+import servicelocationsicon from '../../assets/icons/Navigation/LocationsPin.png'
+import Profile from '../../assets/icons/Navigation/techProfile.png'
+import Dashboard from "../screens/Customer/Dashboard";
+import SchedulesTrack from "../screens/Customer/SchedulesTrack";
+import Servicelocations from "../screens/Customer/Servicelocations";
+
 
 const Tab = createBottomTabNavigator();
 
@@ -26,11 +30,6 @@ export default function CustomerTabNavigator({ navigation }) {
         header: () => (
           <CustomHeader/>
         ),
-        // headerRight: () => (
-        //   <NotificationButton
-        //     onPress={() => console.log("Go to Notifications")}
-        //   />
-        // ),
         tabBarShowLabel: true,
         tabBarActiveTintColor: color.primary,
         tabBarInactiveTintColor: "#8e8e93",
@@ -51,7 +50,7 @@ export default function CustomerTabNavigator({ navigation }) {
         tabBarButton: (props) => (
           <Pressable
             android_ripple={{
-              color: "rgba(0, 0, 0, 0.01)", // subtle ripple
+              color: "rgba(0, 0, 0, 0.01)",
               borderless: false,
             }}
             style={({ pressed }) => [
@@ -65,59 +64,53 @@ export default function CustomerTabNavigator({ navigation }) {
             {...props}
           />
         ),
-        tabBarIcon: ({ color, focused }) => {
-          if (route.name === "My Car Buddy") {
-            return (
-              <Image
-                source={logo}
-                style={{
-                  width: 55,
-                  height: 26,
-                  tintColor: focused ? '#136d6e' : "#8e8e93",
-                  marginBottom: -15,
-                }}
-                resizeMode="contain"
-              />
-            );
-          }
+       tabBarIcon: ({ color, focused }) => {
+  let iconSource;
+  let iconStyle = {
+    width: 26,
+    height: 26,
+    tintColor: focused ? color.primary : "#8e8e93",
+  };
 
-          let iconName;
-          switch (route.name) {
-            case "My Cars":
-              iconName = "car-sport-outline";
-              break;
-            case "Book Service":
-              iconName = "calendar-outline";
-              break;
-            case "My Services":
-              iconName = "construct-outline";
-              break;
-            case "Profile":
-              iconName = "person-circle-outline";
-              break;
-            default:
-              iconName = "ellipse-outline";
-          }
+  switch (route.name) {
+    case "Dashboard":
+      iconSource = dashboard;
+      break;
+    case "Task & Reports":
+      iconSource = TaskReportsicon;
+      break;
+    case "Schedules Track":
+      iconSource = SchedulesTrackicon;
+      break;
+    case "service locations":
+      iconSource = servicelocationsicon;
+      break;
+    case "Profile":
+      iconSource = Profile;
+      break;
+    default:
+      iconSource = null;
+  }
 
-          return <Ionicons name={iconName} size={26} color={color} />;
-        },
-        tabBarLabel: route.name === "My Car Buddy" ? () => null : undefined,
+  if (iconSource) {
+    return (
+      <Image
+        source={iconSource}
+        style={iconStyle}
+        resizeMode="contain"
+      />
+    );
+  }
+
+  return null;
+}
+
       })}
     >
-      <Tab.Screen
-        name="My Car Buddy"
-        // options={{
-        //   header: () => <CustomHeader />,
-        // }}
-        component={HomeScreen}
-      />
-      <Tab.Screen
-        name="My Cars"
-        component={MyCarsList}
-       
-      />
-      <Tab.Screen name="Book Service" component={BookServiceScreen} />
-      <Tab.Screen name="My Services" component={ServiceList} />
+      <Tab.Screen name="Dashboard" component={Dashboard} />
+      <Tab.Screen name="Task & Reports"component={TaskReports} />
+      <Tab.Screen name="Schedules Track" component={SchedulesTrack} />
+      <Tab.Screen name="service locations" component={Servicelocations} />
       <Tab.Screen name="Profile" component={ProfileScreen} />
     </Tab.Navigator>
   );

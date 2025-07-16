@@ -4,7 +4,7 @@ import axios from "axios";
 import { Picker } from "@react-native-picker/picker";
 import CustomText from "../../components/CustomText";
 
-export default function BookServiceScreen() {
+export default function SchedulesTrack() {
   const [states, setStates] = useState([]);
   const [selectedState, setSelectedState] = useState("");
 

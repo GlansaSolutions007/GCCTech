@@ -1,4 +1,4 @@
-import React, { use, useEffect, useState } from "react";
+import React, { use, useEffect, useRef, useState } from "react";
 import {
   View,
   Text,
@@ -23,8 +23,8 @@ import CustomText from "../../components/CustomText";
 import { useNavigation } from "@react-navigation/native";
 import * as Device from "expo-device";
 import { registerForPushNotificationsAsync } from "../../utils/notifications";
-import AntDesign from '@expo/vector-icons/AntDesign';
-
+import AntDesign from "@expo/vector-icons/AntDesign";
+import Google from "../../../assets/icons/SocialMedia/google-logo.png";
 export default function LoginScreen() {
   const { login } = useAuth();
   const [keyboardVisible, setKeyboardVisible] = useState(false);
@@ -34,11 +34,31 @@ export default function LoginScreen() {
   const [message, setMessage] = useState("");
   const [title, setTitle] = useState("Login Info");
   const [email, setEmail] = useState("");
-  const [otp, setOtp] = useState("");
+  // const [otp, setOtp] = useState("");
   const [otpSent, setOtpSent] = useState(false);
   const [loading, setLoading] = useState(false);
   const navigation = useNavigation();
+  const [otp, setOtp] = useState(["", "", "", "", "", ""]);
+  const inputRefs = useRef([]);
 
+  const handleChange = (text, index) => {
+    const newOtp = [...otp];
+    newOtp[index] = text;
+    setOtp(newOtp);
+
+    if (text.length === 1 && index < 5) {
+      inputRefs.current[index + 1]?.focus();
+    }
+  };
+
+  const handleKeyPress = (e, index) => {
+    if (e.nativeEvent.key === "Backspace" && !otp[index] && index > 0) {
+      const newOtp = [...otp];
+      newOtp[index - 1] = "";
+      setOtp(newOtp);
+      inputRefs.current[index - 1]?.focus();
+    }
+  };
 
   const handleSendOtp = async () => {
     if (!email) {
@@ -51,11 +71,14 @@ export default function LoginScreen() {
 
     setLoading(true);
     try {
-      const response = await fetch("https://api.mycarsbuddy.com/api/Auth/send-otp", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ Email: email }),
-      });
+      const response = await fetch(
+        "https://api.mycarsbuddy.com/api/Auth/send-otp",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ Email: email }),
+        }
+      );
 
       if (response.ok) {
         setOtpSent(true);
@@ -87,28 +110,34 @@ export default function LoginScreen() {
 
     setLoading(true);
     try {
-      const DeviceId = Device.osInternalBuildId || Device.osBuildId || "unknown-device-id";
+      const DeviceId =
+        Device.osInternalBuildId || Device.osBuildId || "unknown-device-id";
 
       // const deviceToken = await registerForPushNotificationsAsync();
-      const DeviceToken = 'dummy_token';
+      const DeviceToken = "dummy_token";
 
-      const response = await fetch("https://api.mycarsbuddy.com/api/Auth/verify-otp", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ Email: email, otp }),
-      });
+      const response = await fetch(
+        "https://api.mycarsbuddy.com/api/Auth/verify-otp",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ Email: email, otp }),
+        }
+      );
 
       const result = await response.json();
       console.log("Device Id:", DeviceId);
       console.log("Device Token:", DeviceToken);
 
       if (response.ok && result?.success) {
-        // Store token if needed: result.token
-        login({ email: result.email, token: result.token, DeviceToken, DeviceId, });
+        login({
+          email: result.email,
+          token: result.token,
+          DeviceToken,
+          DeviceId,
+        });
 
-        // Navigate to home (replace so user can't go back to login)
         navigation.replace("CustomerTabs");
-
       } else {
         throw new Error(result?.message || "Invalid OTP.");
       }
@@ -138,28 +167,8 @@ export default function LoginScreen() {
     };
   }, []);
 
-
-  // const handleLogin = () => {
-  //   const matchedUser = demoUsers.find(
-  //     (user) => user.email.toLowerCase() === inputValue.trim().toLowerCase()
-  //   );
-
-  //   if (matchedUser) {
-  //     login(matchedUser);
-  //   } else {
-  //     setMessage("Invalid email or phone number. Please try again.");
-  //     setTitle("Login Failed");
-  //     setStatus("error");
-  //     setShowAlert(true);
-  //   }
-  // };
-
   return (
-    <ImageBackground
-      source={require("../../../assets/images/loginbg3.png")}
-      style={styles.backgroundImage}
-      resizeMode="cover"
-    >
+    <View style={[globalStyles.bgprimary, globalStyles.container]}>
       {!keyboardVisible && (
         <TouchableOpacity
           style={styles.skipButton}
@@ -172,19 +181,19 @@ export default function LoginScreen() {
         </TouchableOpacity>
       )}
       <View />
-      <View style={[globalStyles.container]}>
-        {!keyboardVisible && (
+      <View>
+        {/* {!keyboardVisible && ( */}
           <View>
             <Image
-              source={require("../../../assets/images/GCCL1-01.png")}
+              source={require("../../../assets/Logo/my car buddy-02 yellow-01.png")}
               style={styles.logo}
             />
           </View>
-        )}
+        {/* )} */}
 
         <TextInput
-          placeholder="Enter your email"
-          placeholderTextColor={color.textInputDark}
+          placeholder="Enter Email Id Phone Number"
+          placeholderTextColor={color.textWhite}
           value={email}
           onChangeText={setEmail}
           style={styles.textInput}
@@ -193,15 +202,21 @@ export default function LoginScreen() {
         />
 
         {otpSent && (
-          <TextInput
-            placeholder="Enter OTP"
-            placeholderTextColor={color.textInputDark}
-            value={otp}
-            onChangeText={setOtp}
-            style={styles.textInput}
-            keyboardType="number-pad"
-            maxLength={6}
-          />
+          <View style={styles.otpContainer}>
+            {otp.map((digit, index) => (
+              <TextInput
+                key={index}
+                ref={(ref) => (inputRefs.current[index] = ref)}
+                style={styles.otpBox}
+                keyboardType="number-pad"
+                maxLength={1}
+                value={digit}
+                onChangeText={(text) => handleChange(text, index)}
+                onKeyPress={(e) => handleKeyPress(e, index)}
+                autoFocus={index === 0}
+              />
+            ))}
+          </View>
         )}
 
         <TouchableOpacity
@@ -209,34 +224,24 @@ export default function LoginScreen() {
           onPress={otpSent ? handleVerifyOtp : handleSendOtp}
           disabled={loading}
         >
-          <CustomText style={styles.buttonText}>
-            {loading ? "Please wait..." : otpSent ? "Verify OTP" : "Send OTP"}
+          <CustomText style={[globalStyles.f16Regular, globalStyles.textWhite]}>
+            {loading
+              ? "Please wait..."
+              : otpSent
+              ? "Login"
+              : "Get OTP"}
           </CustomText>
         </TouchableOpacity>
-        {!keyboardVisible && (
+        {/* {!keyboardVisible && ( */}
           <>
-            <View style={[globalStyles.flexrow, globalStyles.alineItemscenter, globalStyles.justifysb, globalStyles.mt1]}>
-              <View style={[globalStyles.flexrow, globalStyles.alineItemscenter]}>
-                <CustomText style={globalStyles.textWhite}>Create new account? </CustomText>
-                <TouchableOpacity onPress={() => navigation.navigate('Register')}>
-                  <CustomText style={globalStyles.textWhite}>Sign Up</CustomText>
-                </TouchableOpacity>
-              </View>
-              <TouchableOpacity>
-                <CustomText style={globalStyles.textWhite}>
-                  Forgot Password?
-                </CustomText>
-              </TouchableOpacity>
-            </View>
-
-            <TouchableOpacity style={styles.googleButton}>
-              <Ionicons name="logo-google" size={20} color="#000" />
-              <CustomText style={styles.googleText}>
-                Sign in with Google
+            <TouchableOpacity style={[styles.googleButton, globalStyles.ph4]}>
+              <Image source={Google} style={styles.googleicon} />
+              <CustomText style={globalStyles.f10Bold}>
+                Login with Google
               </CustomText>
             </TouchableOpacity>
           </>
-        )}
+        {/* )} */}
       </View>
 
       {/* Components */}
@@ -247,29 +252,45 @@ export default function LoginScreen() {
         message={message}
         onClose={() => setShowAlert(false)}
       />
-    </ImageBackground>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  backgroundImage: {
-    // backgroundColor: globalStyles.primary.color,
-    flex: 1,
-    width: "100%",
-    height: "100%",
+  otpContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 20,
   },
 
-  logo: {
-    width: "45%",
-    height: "41%",
-    marginBottom: 10,
+  otpBox: {
+    borderRadius: 8,
+    padding: 12,
+    backgroundColor: color.white,
+    fontSize: 18,
+    textAlign: "center",
+    width: 45,
+    height: 45,
   },
+  googleicon: {
+    width: 35,
+    height: 45,
+    resizeMode: "contain",
+  },
+  logo: {
+    width: 200,
+    height: 100,
+    resizeMode: "contain",
+    alignSelf: "center",
+    marginBottom: 100,
+  },
+
   skipButton: {
     position: "absolute",
-    top: 50, // adjust for safe area
+    top: 50,
     right: 20,
     zIndex: 10,
-    backgroundColor: "rgba(255, 255, 255, 0.3)", // optional subtle bg
+    backgroundColor: "rgba(255, 255, 255, 0.3)",
     paddingHorizontal: 12,
     paddingVertical: 6,
     borderRadius: 12,
@@ -288,19 +309,13 @@ const styles = StyleSheet.create({
     marginTop: 40,
     flexDirection: "row",
     backgroundColor: color.white,
-    paddingVertical: 12,
     borderRadius: 24,
     alignItems: "center",
     justifyContent: "center",
     alignSelf: "center",
-    width: 240,
     gap: 10,
   },
-  googleText: {
-    // fontFamily: fonts.medium,
-    fontSize: 14,
-    color: "#000",
-  },
+
   title: {
     // fontFamily: fonts.bold,
     fontSize: 22,
@@ -321,21 +336,11 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   button: {
-    backgroundColor: color.white,
+    backgroundColor: color.primaryLight,
     paddingVertical: 14,
     borderRadius: 8,
     alignItems: "center",
     marginTop: 10,
-    shadowColor: color.black,
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.3,
-    shadowRadius: 3,
-    elevation: 5,
-  },
-  buttonText: {
-    color: color.textDark,
-    // fontFamily: fonts.medium,
-    fontSize: 16,
   },
 
   // Home Screen Styles

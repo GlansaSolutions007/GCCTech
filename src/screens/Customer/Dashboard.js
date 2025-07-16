@@ -20,7 +20,7 @@ import { useNavigation } from "@react-navigation/native";
 import { LinearGradient } from 'expo-linear-gradient';
 import * as Device from "expo-device";
 
-export default function HomeScreen() {
+export default function Dashboard() {
   const navigation = useNavigation();
 
   const goToCar = () => {
