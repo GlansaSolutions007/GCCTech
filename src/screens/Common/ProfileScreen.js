@@ -179,21 +179,19 @@ export default function ProfileScreen() {
             "Terms & Conditions",
             "Inventory Items Request",
           ].map((label, index) => (
-            <View>
-            <TouchableOpacity
-              key={index}
-              style={[
-                globalStyles.flexrow,
-                globalStyles.justifysb,
-                globalStyles.mv3,
-              ]}
-            >
-              <CustomText>{label}</CustomText>
-              <Ionicons name="chevron-forward" size={16} color="#333" />
-            </TouchableOpacity>
+            <View key={index}>
+              <TouchableOpacity
+                style={[
+                  globalStyles.flexrow,
+                  globalStyles.justifysb,
+                  globalStyles.mv3,
+                ]}
+              >
+                <CustomText>{label}</CustomText>
+                <Ionicons name="chevron-forward" size={16} color="#333" />
+              </TouchableOpacity>
               <View style={styles.divider} />
             </View>
-            
           ))}
         </View>
       </View>
@@ -202,7 +200,7 @@ export default function ProfileScreen() {
 }
 
 const styles = StyleSheet.create({
-   divider: {
+  divider: {
     height: 1,
     backgroundColor: color.neutral[100],
   },
