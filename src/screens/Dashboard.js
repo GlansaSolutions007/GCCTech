@@ -5,7 +5,6 @@ import {
   View,
   Text,
   TouchableOpacity,
-  Switch,
   Image,
 } from "react-native";
 import globalStyles from "../styles/globalStyles";
@@ -13,46 +12,48 @@ import { color } from "../styles/theme";
 import { Ionicons } from "@expo/vector-icons";
 import profilepic from "../../assets/images/person.jpg";
 import CustomText from "../components/CustomText";
+import Switch from "../components/Switch"
 
 export default function Dashboard() {
   const [isOnline, setIsOnline] = useState(true);
 
   return (
     <ScrollView
-      style={[{ backgroundColor: color.textWhite }]}
+      style={[globalStyles.bgcontainer]}
       contentContainerStyle={{ paddingBottom: 30 }}
     >
-      <View style={[globalStyles.bgcontainer, globalStyles.container]}>
+      <View style={[ globalStyles.container]}>
         <View
-          style={[
-            globalStyles.bgprimary,
-            globalStyles.p4,
-            globalStyles.borderRadiuslarge,
-            globalStyles.flexrow,
-            globalStyles.justifysb,
-            globalStyles.alineItemscenter,
-          ]}
-        >
-          <View>
-            <Text style={[globalStyles.f16SemiBold, globalStyles.textWhite]}>
-              Wednesday, July 16
-            </Text>
-            <View style={[globalStyles.flexrow, globalStyles.alineItemscenter]}>
-              <Text style={[globalStyles.f28Bold, globalStyles.textWhite]}>
-                Today
-              </Text>
-              <Text style={[globalStyles.f16Light, globalStyles.neutral100]}>
-                (Online)
-              </Text>
-            </View>
-          </View>
-          <Switch
-            value={isOnline}
-            onValueChange={(value) => setIsOnline(value)}
-            trackColor={{ false: "#ccc", true: "#a0e6e7" }}
-            thumbColor={isOnline ? color.secondary : "#f4f3f4"}
-          />
-        </View>
+               style={[
+                 globalStyles.bgprimary,
+                 globalStyles.p4,
+                 globalStyles.borderRadiuslarge,
+                 globalStyles.flexrow,
+                 globalStyles.justifysb,
+                 globalStyles.alineItemscenter,
+               ]}
+             >
+               <View>
+                 <CustomText
+                   style={[globalStyles.f16Bold, globalStyles.textWhite]}
+                 >
+                   Wednesday, July 16
+                 </CustomText>
+                 <View style={[globalStyles.flexrow, globalStyles.alineItemscenter]}>
+                   <CustomText style={[globalStyles.f28Bold, globalStyles.textWhite]}>
+                     Today{" "}
+                   </CustomText>
+                   <CustomText
+                     style={[globalStyles.f16Light, globalStyles.neutral100,globalStyles.alineSelfend]}
+                   >
+                     (Online)
+                   </CustomText>
+                 </View>
+               </View>
+               <View style={globalStyles.alineSelfend}>
+               <Switch />
+               </View>
+             </View>
 
         <View
           style={[

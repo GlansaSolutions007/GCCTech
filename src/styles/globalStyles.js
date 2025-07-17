@@ -77,7 +77,7 @@ export default StyleSheet.create({
 
   container: {
     flex: 1,
-    paddingHorizontal: 20,
+    paddingHorizontal: 12,
     justifyContent: "center",
   },
   bgcontainer: {
@@ -103,6 +103,9 @@ export default StyleSheet.create({
   },
   black: {
     color: color.black,
+  },
+  red: {
+    color: color.red,
   },
   neutral100: {
     color: color.neutral[100],

@@ -5,97 +5,105 @@ import {
   StyleSheet,
   TouchableOpacity,
   ScrollView,
-  Switch,
 } from "react-native";
 import CustomText from "../../components/CustomText";
 import globalStyles from "../../styles/globalStyles";
 import { Ionicons } from "@expo/vector-icons";
-import profilepic from "../../../assets/images/person.jpg";
+import profilepic from "../../../assets/images/persontwo.jpg";
 import { color } from "../../styles/theme";
-
+import Switch from "../../components/Switch";
+import locationicon from "../../../assets/icons/Navigation/LocationsPin.png";
+import person from "../../../assets/icons/Navigation/techProfile.png";
 export default function ProfileScreen() {
   const [isOnline, setIsOnline] = useState(true);
 
   return (
-    <ScrollView
-      style={[globalStyles.bgcontainer]}
-      contentContainerStyle={[globalStyles.p4]}
-    >
-      <View
-        style={[
-          globalStyles.bgprimary,
-          globalStyles.p4,
-          globalStyles.borderRadiuslarge,
-          globalStyles.flexrow,
-          globalStyles.justifysb,
-          globalStyles.alineItemscenter,
-        ]}
-      >
-        <View>
-          <CustomText
-            style={[globalStyles.f16SemiBold, globalStyles.textWhite]}
-          >
-            Wednesday, July 16
-          </CustomText>
-          <View style={[globalStyles.flexrow, globalStyles.alineItemscenter]}>
-            <CustomText style={[globalStyles.f28Bold, globalStyles.textWhite]}>
-              Today
-            </CustomText>
-            <CustomText
-              style={[globalStyles.f16Light, globalStyles.neutral100]}
-            >
-              (Online)
-            </CustomText>
-          </View>
-        </View>
-        <Switch
-          value={isOnline}
-          onValueChange={(value) => setIsOnline(value)}
-          trackColor={{ false: "#ccc", true: "#a0e6e7" }}
-          thumbColor={isOnline ? color.secondary : "#f4f3f4"}
-        />
-      </View>
-      <View style={[globalStyles.flexrow, globalStyles.mv5]}>
+    <ScrollView style={[globalStyles.bgcontainer]}>
+      <View style={globalStyles.container}>
         <View
           style={[
+            globalStyles.bgprimary,
+            globalStyles.p4,
+            globalStyles.borderRadiuslarge,
+            globalStyles.flexrow,
+            globalStyles.justifysb,
             globalStyles.alineItemscenter,
-            globalStyles.mb3,
-            globalStyles.mr4,
           ]}
         >
-          <Image source={profilepic} style={styles.avatar} />
-        </View>
-        <View>
-          <CustomText style={[globalStyles.f24Bold, globalStyles.primary]}>
-            Bhuvan Raj
-          </CustomText>
-          <CustomText style={[globalStyles.f16Medium]}>
-            Mobile: 9988776655
-          </CustomText>
-          <CustomText style={[globalStyles.f16Medium]}>
-            Email : bhuvan@carbuddy.com
-          </CustomText>
-          <View style={[globalStyles.flexrow, globalStyles.mt2]}>
-            <Ionicons
-              name="location-outline"
-              size={16}
-              color="#333"
-              style={globalStyles.mr2}
-            />
-            <CustomText style={globalStyles.f12Bold}>
-              Telangana, Hyderabad
+          <View>
+            <CustomText style={[globalStyles.f16Bold, globalStyles.textWhite]}>
+              Wednesday, July 16
             </CustomText>
+            <View style={[globalStyles.flexrow, globalStyles.alineItemscenter]}>
+              <CustomText
+                style={[globalStyles.f28Bold, globalStyles.textWhite]}
+              >
+                Today{" "}
+              </CustomText>
+              <CustomText
+                style={[
+                  globalStyles.f16Light,
+                  globalStyles.neutral100,
+                  globalStyles.alineSelfend,
+                ]}
+              >
+                (Online)
+              </CustomText>
+            </View>
           </View>
-          <View style={[globalStyles.flexrow, globalStyles.mt1]}>
-            <Ionicons
-              name="person-outline"
-              size={16}
-              color="#333"
-              style={globalStyles.mr2}
-            />
-            <CustomText style={globalStyles.f12Bold}>
-              Dealer: Shantanu
+          <View style={globalStyles.alineSelfend}>
+            <Switch />
+          </View>
+        </View>
+        <View style={[globalStyles.flexrow, globalStyles.mv5]}>
+          <View
+            style={[
+              globalStyles.alineItemscenter,
+              globalStyles.mb3,
+              globalStyles.mr4,
+            ]}
+          >
+            <Image source={profilepic} style={styles.avatar} />
+          </View>
+          <View>
+            <CustomText style={[globalStyles.f24Bold, globalStyles.primary]}>
+              Bhuvan Raj
             </CustomText>
+            <CustomText style={[globalStyles.f12Medium]}>
+              Mobile: 9988776655
+            </CustomText>
+            <CustomText style={[globalStyles.f12Medium]}>
+              Email : bhuvan@carbuddy.com
+            </CustomText>
+            <View
+              style={[
+                globalStyles.flexrow,
+                globalStyles.mt2,
+                globalStyles.alineItemscenter,
+              ]}
+            >
+              <View style={styles.iconbg}>
+                <Image source={locationicon} style={styles.icons} />
+              </View>
+              <CustomText style={globalStyles.f12Bold}>
+                Telangana, Hyderabad
+              </CustomText>
+            </View>
+            <View
+              style={[
+                globalStyles.flexrow,
+                globalStyles.mt1,
+                globalStyles.alineItemscenter,
+              ]}
+            >
+              <View style={styles.iconbg}>
+                <Image source={person} style={styles.icons} />
+              </View>
+
+              <CustomText style={globalStyles.f12Bold}>
+                Dealer: Shantanu
+              </CustomText>
+            </View>
           </View>
         </View>
       </View>
@@ -171,6 +179,7 @@ export default function ProfileScreen() {
             "Terms & Conditions",
             "Inventory Items Request",
           ].map((label, index) => (
+            <View>
             <TouchableOpacity
               key={index}
               style={[
@@ -182,6 +191,9 @@ export default function ProfileScreen() {
               <CustomText>{label}</CustomText>
               <Ionicons name="chevron-forward" size={16} color="#333" />
             </TouchableOpacity>
+              <View style={styles.divider} />
+            </View>
+            
           ))}
         </View>
       </View>
@@ -190,12 +202,30 @@ export default function ProfileScreen() {
 }
 
 const styles = StyleSheet.create({
+   divider: {
+    height: 1,
+    backgroundColor: color.neutral[100],
+  },
+  icons: {
+    width: 11,
+    height: 16,
+  },
+  iconbg: {
+    padding: 6,
+    height: 30,
+    width: 30,
+    backgroundColor: color.white,
+    borderRadius: 50,
+    justifyContent: "center",
+    alignItems: "center",
+    marginRight: 5,
+  },
   container: {
     flex: 1,
   },
   avatar: {
     width: 130,
-    height: 130,
+    height: 150,
     borderWidth: 8,
     borderColor: color.white,
     borderRadius: 8,
