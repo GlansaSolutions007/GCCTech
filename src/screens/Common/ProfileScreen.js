@@ -14,9 +14,14 @@ import { color } from "../../styles/theme";
 import Switch from "../../components/Switch";
 import locationicon from "../../../assets/icons/Navigation/LocationsPin.png";
 import person from "../../../assets/icons/Navigation/techProfile.png";
+import { useNavigation } from "@react-navigation/native";
 export default function ProfileScreen() {
   const [isOnline, setIsOnline] = useState(true);
 
+  const navigation = useNavigation();
+  const review=()=>{
+navigation.navigate("reviews")
+  }
   return (
     <ScrollView style={[globalStyles.bgcontainer]}>
       <View style={globalStyles.container}>
@@ -144,7 +149,9 @@ export default function ProfileScreen() {
             >
               4.5
             </CustomText>
+            <TouchableOpacity onPress={review}>
             <CustomText>Review Ratings</CustomText>
+            </TouchableOpacity>
           </View>
           <View style={styles.gridItem}>
             <CustomText
