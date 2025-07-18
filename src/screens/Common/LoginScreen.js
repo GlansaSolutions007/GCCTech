@@ -1,155 +1,74 @@
-import React, { use, useEffect, useRef, useState } from "react";
+import React, {  useEffect, useState } from "react";
 import {
   View,
-  Text,
   TextInput,
   TouchableOpacity,
   Image,
   StyleSheet,
-  ImageBackground,
-  KeyboardAvoidingView,
   Platform,
   Keyboard,
-  TouchableWithoutFeedback,
 } from "react-native";
-import fonts from "../../styles/fonts";
-import { Ionicons } from "@expo/vector-icons";
 import globalStyles from "../../styles/globalStyles";
 import CustomAlert from "../../components/CustomAlert";
-import { demoUsers } from "../../constants/demoUsers";
 import { useAuth } from "../../contexts/AuthContext";
 import { color } from "../../styles/theme";
 import CustomText from "../../components/CustomText";
 import { useNavigation } from "@react-navigation/native";
-import * as Device from "expo-device";
-import { registerForPushNotificationsAsync } from "../../utils/notifications";
 import AntDesign from "@expo/vector-icons/AntDesign";
-import Google from "../../../assets/icons/SocialMedia/google-logo.png";
+import axios from "axios";
 export default function LoginScreen() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
   const { login } = useAuth();
   const [keyboardVisible, setKeyboardVisible] = useState(false);
-  const [inputValue, setInputValue] = useState("");
   const [showAlert, setShowAlert] = useState(false);
   const [status, setStatus] = useState("info");
   const [message, setMessage] = useState("");
   const [title, setTitle] = useState("Login Info");
-  const [email, setEmail] = useState("");
-  // const [otp, setOtp] = useState("");
-  const [otpSent, setOtpSent] = useState(false);
   const [loading, setLoading] = useState(false);
   const navigation = useNavigation();
-  const [otp, setOtp] = useState(["", "", "", "", "", ""]);
-  const inputRefs = useRef([]);
+  const [inputsDisabled, setInputsDisabled] = useState(false);
+  const [phoneNumber, setPhoneNumber] = useState("");
 
-  const handleChange = (text, index) => {
-    const newOtp = [...otp];
-    newOtp[index] = text;
-    setOtp(newOtp);
 
-    if (text.length === 1 && index < 5) {
-      inputRefs.current[index + 1]?.focus();
-    }
-  };
-
-  const handleKeyPress = (e, index) => {
-    if (e.nativeEvent.key === "Backspace" && !otp[index] && index > 0) {
-      const newOtp = [...otp];
-      newOtp[index - 1] = "";
-      setOtp(newOtp);
-      inputRefs.current[index - 1]?.focus();
-    }
-  };
-
-  const handleSendOtp = async () => {
-    if (!email) {
-      setTitle("Missing Email");
-      setMessage("Please enter your email.");
-      setStatus("error");
-      setShowAlert(true);
-      return;
-    }
-
-    setLoading(true);
-    try {
-      const response = await fetch(
-        "https://api.mycarsbuddy.com/api/Auth/send-otp",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ Email: email }),
-        }
-      );
-
-      if (response.ok) {
-        setOtpSent(true);
-        setTitle("OTP Sent");
-        setMessage("Please check your email for the OTP.");
-        setStatus("success");
-      } else {
-        const errorText = await response.text();
-        throw new Error(errorText);
+  const handleLoginWithPassword = async () => {
+  setLoading(true);
+  try {
+    const response = await axios.post(
+      "https://api.mycarsbuddy.com/api/Auth/Technician-login",
+      {
+        PhoneNumber: phoneNumber,
+        Password: password,
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
       }
-    } catch (error) {
-      setTitle("Send OTP Failed");
-      setMessage("Something went wrong." || error.message);
-      setStatus("error");
-    } finally {
-      setShowAlert(true);
-      setLoading(false);
+    );
+
+    if (response.data?.success) {
+      login({
+        email: response.data.email,
+        token: response.data.token,
+      });
+
+      navigation.replace("CustomerTabs");
+    } else {
+      throw new Error(response.data?.message || "Login failed.");
     }
-  };
+  } catch (error) {
+    console.error("Login error:", error?.response?.data || error.message);
+    setTitle("Login Failed");
+    setMessage(error?.response?.data?.message || error.message);
+    setStatus("error");
+    setShowAlert(true);
+  } finally {
+    setLoading(false);
+  }
+};
 
-  const handleVerifyOtp = async () => {
-    if (!otp) {
-      setTitle("Missing OTP");
-      setMessage("Please enter the OTP.");
-      setStatus("error");
-      setShowAlert(true);
-      return;
-    }
-
-    setLoading(true);
-    try {
-      const DeviceId =
-        Device.osInternalBuildId || Device.osBuildId || "unknown-device-id";
-
-      // const deviceToken = await registerForPushNotificationsAsync();
-      const DeviceToken = "dummy_token";
-
-      const response = await fetch(
-        "https://api.mycarsbuddy.com/api/Auth/verify-otp",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ Email: email, otp }),
-        }
-      );
-
-      const result = await response.json();
-      console.log("Device Id:", DeviceId);
-      console.log("Device Token:", DeviceToken);
-
-      if (response.ok && result?.success) {
-        login({
-          email: result.email,
-          token: result.token,
-          DeviceToken,
-          DeviceId,
-        });
-
-        navigation.replace("CustomerTabs");
-      } else {
-        throw new Error(result?.message || "Invalid OTP.");
-      }
-    } catch (error) {
-      setTitle("OTP Verification Failed");
-      setMessage(error.message || "Unable to verify OTP.");
-      setStatus("error");
-      setShowAlert(true);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   useEffect(() => {
     const showSub = Keyboard.addListener(
@@ -182,69 +101,46 @@ export default function LoginScreen() {
       )}
       <View />
       <View>
-        {/* {!keyboardVisible && ( */}
-          <View>
-            <Image
-              source={require("../../../assets/Logo/my car buddy-02 yellow-01.png")}
-              style={styles.logo}
-            />
-          </View>
-        {/* )} */}
+        <View>
+          <Image
+            source={require("../../../assets/Logo/my car buddy-02 yellow-01.png")}
+            style={styles.logo}
+          />
+        </View>
+
+       <TextInput
+  placeholder="Enter Phone Number"
+  placeholderTextColor={color.textWhite}
+  value={phoneNumber}
+  onChangeText={setPhoneNumber}
+  style={styles.textInput}
+  keyboardType="phone-pad"
+  autoCapitalize="none"
+  editable={!inputsDisabled}
+/>
+
 
         <TextInput
-          placeholder="Enter Email Id Phone Number"
+          placeholder="Enter Password"
           placeholderTextColor={color.textWhite}
-          value={email}
-          onChangeText={setEmail}
+          value={password}
+          onChangeText={setPassword}
+          secureTextEntry={true}
           style={styles.textInput}
-          keyboardType="email-address"
-          autoCapitalize="none"
+          editable={!inputsDisabled}
         />
-
-        {otpSent && (
-          <View style={styles.otpContainer}>
-            {otp.map((digit, index) => (
-              <TextInput
-                key={index}
-                ref={(ref) => (inputRefs.current[index] = ref)}
-                style={styles.otpBox}
-                keyboardType="number-pad"
-                maxLength={1}
-                value={digit}
-                onChangeText={(text) => handleChange(text, index)}
-                onKeyPress={(e) => handleKeyPress(e, index)}
-                autoFocus={index === 0}
-              />
-            ))}
-          </View>
-        )}
 
         <TouchableOpacity
           style={styles.button}
-          onPress={otpSent ? handleVerifyOtp : handleSendOtp}
+          onPress={handleLoginWithPassword}
           disabled={loading}
         >
           <CustomText style={[globalStyles.f16Regular, globalStyles.textWhite]}>
-            {loading
-              ? "Please wait..."
-              : otpSent
-              ? "Login"
-              : "Get OTP"}
+            Login
           </CustomText>
         </TouchableOpacity>
-        {/* {!keyboardVisible && ( */}
-          <>
-            <TouchableOpacity style={[styles.googleButton, globalStyles.ph4]}>
-              <Image source={Google} style={styles.googleicon} />
-              <CustomText style={globalStyles.f10Bold}>
-                Login with Google
-              </CustomText>
-            </TouchableOpacity>
-          </>
-        {/* )} */}
       </View>
 
-      {/* Components */}
       <CustomAlert
         visible={showAlert}
         status={status}
@@ -257,26 +153,6 @@ export default function LoginScreen() {
 }
 
 const styles = StyleSheet.create({
-  otpContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginBottom: 20,
-  },
-
-  otpBox: {
-    borderRadius: 8,
-    padding: 12,
-    backgroundColor: color.white,
-    fontSize: 18,
-    textAlign: "center",
-    width: 45,
-    height: 45,
-  },
-  googleicon: {
-    width: 35,
-    height: 45,
-    resizeMode: "contain",
-  },
   logo: {
     width: 200,
     height: 100,
@@ -304,16 +180,6 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 16,
     fontWeight: "600",
-  },
-  googleButton: {
-    marginTop: 40,
-    flexDirection: "row",
-    backgroundColor: color.white,
-    borderRadius: 24,
-    alignItems: "center",
-    justifyContent: "center",
-    alignSelf: "center",
-    gap: 10,
   },
 
   title: {
