@@ -119,6 +119,18 @@ export default StyleSheet.create({
   neutral500: {
     color: color.neutral[500],
   },
+  bgneutral100: {
+    backgroundColor: color.neutral[100],
+  },
+  bgneutral200: {
+    backgroundColor: color.neutral[200],
+  },
+  bgneutral300: {
+    backgroundColor: color.neutral[300],
+  },
+  bgneutral500: {
+    backgroundColor: color.neutral[500],
+  },
   // Color styles .............. end
 
   // background color ----------- start

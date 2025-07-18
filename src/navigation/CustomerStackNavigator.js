@@ -4,6 +4,7 @@ import MyCars from "../screens/MyCars";
 import InteriorService from "../screens/InteriorService";
 import TaskReportsScreen from "../screens/TaskReportsScreen";
 import Reviews from "../screens/Reviews";
+import CustomerInfo from "../screens/CustomerInfo";
 
 const Stack = createNativeStackNavigator();
 
@@ -27,6 +28,11 @@ export default function CustomerStackNavigator() {
         name="InteriorService"
         component={InteriorService}
         options={{ title: "interior Service" }}
+      />
+      <Stack.Screen
+        name="customerInfo"
+        component={CustomerInfo}
+        options={{ title: "Customer Info" }}
       />
       <Stack.Screen
         name="reviews"

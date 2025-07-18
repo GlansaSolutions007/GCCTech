@@ -12,56 +12,26 @@ import { color } from "../styles/theme";
 import { Ionicons } from "@expo/vector-icons";
 import profilepic from "../../assets/images/person.jpg";
 import CustomText from "../components/CustomText";
-import Switch from "../components/Switch";
 import locationicon from "../../assets/icons/Navigation/LocationsPin.png";
 import dateicon from "../../assets/icons/Navigation/schedule.png";
 import dashboardicon from "../../assets/icons/Navigation/techhom.png";
 import reportsicon from "../../assets/icons/Navigation/reports.png";
+import AvailabilityHeader from "../components/AvailabilityHeader";
+import { useNavigation } from "@react-navigation/native";
 
 export default function Dashboard() {
   const [isOnline, setIsOnline] = useState(true);
-
+  const navigation = useNavigation();
+  const customerInfo = () => {
+    navigation.navigate("customerInfo");
+  };
   return (
     <ScrollView
       style={[globalStyles.bgcontainer]}
       contentContainerStyle={{ paddingBottom: 30 }}
     >
       <View style={[globalStyles.container]}>
-        <View
-          style={[
-            globalStyles.bgprimary,
-            globalStyles.p4,
-            globalStyles.borderRadiuslarge,
-            globalStyles.flexrow,
-            globalStyles.justifysb,
-            globalStyles.alineItemscenter,
-          ]}
-        >
-          <View>
-            <CustomText style={[globalStyles.f16Bold, globalStyles.textWhite]}>
-              Wednesday, July 16
-            </CustomText>
-            <View style={[globalStyles.flexrow, globalStyles.alineItemscenter]}>
-              <CustomText
-                style={[globalStyles.f28Bold, globalStyles.textWhite]}
-              >
-                Today{" "}
-              </CustomText>
-              <CustomText
-                style={[
-                  globalStyles.f16Light,
-                  globalStyles.neutral100,
-                  globalStyles.alineSelfend,
-                ]}
-              >
-                (Online)
-              </CustomText>
-            </View>
-          </View>
-          <View style={globalStyles.alineSelfend}>
-            <Switch />
-          </View>
-        </View>
+        <AvailabilityHeader />
 
         <View
           style={[
@@ -271,7 +241,6 @@ export default function Dashboard() {
 
             <View style={globalStyles.divider} />
 
-         
             <View
               style={[
                 globalStyles.flexrow,
@@ -279,7 +248,7 @@ export default function Dashboard() {
                 globalStyles.alineItemscenter,
               ]}
             >
-              <View style={[globalStyles.flexrow, globalStyles.justifysb,]}>
+              <View style={[globalStyles.flexrow, globalStyles.justifysb]}>
                 <View style={globalStyles.mr3}>
                   <View
                     style={[
@@ -326,7 +295,7 @@ export default function Dashboard() {
                     <CustomText
                       style={[globalStyles.f10Regular, globalStyles.textWhite]}
                     >
-                     TGE131998
+                      TGE131998
                     </CustomText>
                   </View>
                 </View>
@@ -344,7 +313,7 @@ export default function Dashboard() {
                     <CustomText
                       style={[globalStyles.f10Regular, globalStyles.textWhite]}
                     >
-                     16/07/2025
+                      16/07/2025
                     </CustomText>
                   </View>
                   <View
@@ -383,15 +352,16 @@ export default function Dashboard() {
               </View>
 
               <View style={globalStyles.alineSelfend}>
-                <TouchableOpacity
-                  style={[styles.cancelButton]}
-                >
+                <TouchableOpacity style={[styles.cancelButton]}>
                   <Text style={[globalStyles.f14Bold, globalStyles.textWhite]}>
                     Cancel
                   </Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity style={[styles.viewButton,globalStyles.mt3]}>
+                <TouchableOpacity
+                  onPress={customerInfo}
+                  style={[styles.viewButton, globalStyles.mt3]}
+                >
                   <Text style={[globalStyles.f14Bold, globalStyles.primary]}>
                     View
                   </Text>
@@ -456,21 +426,21 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     borderRadius: 8,
   },
-    cancelButton: {
+  cancelButton: {
     backgroundColor: color.black,
     paddingVertical: 8,
     paddingHorizontal: 16,
-    borderRadius: 8,  
-    justifyContent:"center",
-    alignItems:"center"
+    borderRadius: 8,
+    justifyContent: "center",
+    alignItems: "center",
   },
   viewButton: {
     backgroundColor: color.white,
     paddingVertical: 8,
     paddingHorizontal: 16,
     borderRadius: 8,
-    justifyContent:"center",
-    alignItems:"center"
+    justifyContent: "center",
+    alignItems: "center",
   },
   card: {
     borderRadius: 12,

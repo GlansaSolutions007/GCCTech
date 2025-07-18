@@ -1,79 +1,187 @@
-import React from 'react';
-import { View, Image, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
-import CustomText from '../components/CustomText';
-import { AntDesign, MaterialIcons } from '@expo/vector-icons';
-import globalStyles from '../styles/globalStyles';
-import profile1 from '../../assets/images/person.jpg'; // ✅ make sure this exists
-
+import React, { useState } from "react";
+import {
+  View,
+  Image,
+  FlatList,
+  StyleSheet,
+  TouchableOpacity,
+} from "react-native";
+import CustomText from "../components/CustomText";
+import { AntDesign, MaterialIcons } from "@expo/vector-icons";
+import globalStyles from "../styles/globalStyles";
+import profile1 from "../../assets/images/person.jpg";
+import AvailabilityHeader from "../components/AvailabilityHeader";
+import { color } from "../styles/theme";
 const reviews = [
   {
-    id: '1',
-    name: 'Jhon Dio',
-    time: '3 hrs ago',
+    id: "1",
+    name: "Jhon Dio",
+    time: "3 hrs ago",
     image: profile1,
-    text: "The technician was on time and very professional. My car’s interior feels brand new. Super polite and made sure everything was spotless. Highly recommend!",
+    text: "The technician was on time and very professional. My cars interior feels brand new. Super polite and made sure everything was spotless. Highly recommend!",
   },
   {
-    id: '2',
-    name: 'Kapil Sharma',
-    time: '16 July 2025',
+    id: "2",
+    name: "Kapil Sharma",
+    time: "16 July 2025",
     image: profile1,
-    text: "The technician was on time and very professional. My car’s interior feels brand new. Super polite and made sure everything was spotless. Highly recommend!.....",
+    text: "The technician was on time and very professional. My cars interior feels brand new. Super polite and made sure everything was spotless. Highly recommend!.....",
+  },
+  {
+    id: "3",
+    name: "Jhon Dio",
+    time: "3 hrs ago",
+    image: profile1,
+    text: "The technician was on time and very professional. My cars interior feels brand new. Super polite and made sure everything was spotless. Highly recommend!",
+  },
+  {
+    id: "4",
+    name: "Jhon Dio",
+    time: "3 hrs ago",
+    image: profile1,
+    text: "The technician was on time and very professional. My cars interior feels brand new. Super polite and made sure everything was spotless. Highly recommend!",
+  },
+   {
+    id: "5",
+    name: "Kapil Sharma",
+    time: "16 July 2025",
+    image: profile1,
+    text: "The technician was on time and very professional. My cars interior feels brand new. Super polite and made sure everything was spotless. Highly recommend!.....",
+  },
+  {
+    id: "6",
+    name: "Jhon Dio",
+    time: "3 hrs ago",
+    image: profile1,
+    text: "The technician was on time and very professional. My cars interior feels brand new. Super polite and made sure everything was spotless. Highly recommend!",
   },
 ];
 
 export default function Reviews() {
+  const [expandedCardId, setExpandedCardId] = useState(null);
+
+  const toggleExpand = (id) => {
+    setExpandedCardId((prevId) => (prevId === id ? null : id));
+  };
   return (
-    <View style={[globalStyles.container, globalStyles.p2]}>
-      {/* Header */}
-      <View style={[globalStyles.flexrow, globalStyles.justifysb, globalStyles.alineItemscenter, globalStyles.mb3]}>
+    <View style={[globalStyles.container]}>
+      <AvailabilityHeader />
+      <View
+        style={[
+          globalStyles.flexrow,
+          globalStyles.justifysb,
+          globalStyles.alineItemscenter,
+          globalStyles.mb3,
+        ]}
+      >
         <View style={[globalStyles.flexrow, globalStyles.alineItemscenter]}>
-          <CustomText style={[globalStyles.font18, globalStyles.fontWeight700]}>4.9</CustomText>
-          <View style={[globalStyles.flexrow, globalStyles.ml1]}>
+          <CustomText style={[globalStyles.f28Bold]}>4.9</CustomText>
+          <View
+            style={[
+              globalStyles.flexrow,
+              globalStyles.ml1,
+              globalStyles.alineSelfcenter,
+            ]}
+          >
             {[...Array(5)].map((_, i) => (
-              <AntDesign key={i} name="star" size={14} color="#00B67A" style={globalStyles.mr1} />
+              <MaterialIcons
+                key={i}
+                name="star"
+                size={18}
+                color={color.primary}
+              />
             ))}
           </View>
-          <CustomText style={[globalStyles.ml2, globalStyles.font14, { color: '#666' }]}>3 Reviews</CustomText>
+          <CustomText
+            style={[
+              globalStyles.ml2,
+              globalStyles.f10Medium,
+              { color: "#666" },
+            ]}
+          >
+            3 Reviews
+          </CustomText>
         </View>
 
-        <CustomText style={[globalStyles.font14, globalStyles.fontWeight600]}>
-          Sort by:{' '}
-          <CustomText style={{ color: '#00B67A' }}>Superb ▼</CustomText>
-        </CustomText>
+        <View style={[globalStyles.flexrow, globalStyles.alineItemscenter]}>
+          <CustomText style={[globalStyles.f12Medium, globalStyles.neutral500]}>
+            Sort by:{" "}
+          </CustomText>
+          <CustomText style={[globalStyles.f12Medium, globalStyles.black]}>
+            Superb
+          </CustomText>
+          <MaterialIcons name="arrow-drop-down" size={30} color={color.black} />
+        </View>
       </View>
 
-      {/* Reviews */}
       <FlatList
         data={reviews}
         keyExtractor={(item) => item.id}
         showsVerticalScrollIndicator={false}
         renderItem={({ item }) => (
-          <View style={[styles.card, globalStyles.mb3]}>
-            <View style={[globalStyles.flexrow, globalStyles.justifysb, globalStyles.alineItemscenter]}>
-              <View style={[globalStyles.flexrow, globalStyles.alineItemscenter]}>
-                <Image source={item.image} style={styles.avatar} />
+          <View style={[styles.card, globalStyles.mb5]}>
+            <View
+              style={[
+                globalStyles.flexrow,
+                globalStyles.justifysb,
+                globalStyles.alineItemscenter,
+              ]}
+            >
+              <View
+                style={[globalStyles.flexrow, globalStyles.alineItemscenter]}
+              >
+                <View style={styles.avatharring}>
+                  <Image source={item.image} style={styles.avatar} />
+                </View>
                 <View style={globalStyles.ml2}>
-                  <CustomText style={[globalStyles.fontWeight700, globalStyles.font16, { color: '#2E2E2E' }]}>
+                  <CustomText
+                    style={[globalStyles.primary, globalStyles.f20Bold]}
+                  >
                     {item.name}
                   </CustomText>
                   <View style={[globalStyles.flexrow]}>
                     {[...Array(5)].map((_, i) => (
-                      <AntDesign key={i} name="star" size={14} color="#00B67A" style={globalStyles.mr1} />
+                      <MaterialIcons
+                        key={i}
+                        name="star"
+                        size={14}
+                        color={color.primary}
+                      />
                     ))}
                   </View>
                 </View>
               </View>
-              <CustomText style={[globalStyles.font14, { color: '#A4A4A4' }]}>{item.time}</CustomText>
+              <CustomText
+                style={[globalStyles.f12Bold, globalStyles.neutral500]}
+              >
+                {item.time}
+              </CustomText>
             </View>
 
-            <CustomText style={[globalStyles.mt2, globalStyles.font14, { color: '#4B4B4B' }]}>
+            <CustomText
+              style={[
+                globalStyles.mt2,
+                globalStyles.f12Medium,
+                { color: "#4B4B4B" },
+              ]}
+            >
               {item.text}
             </CustomText>
 
-            {item.text.endsWith('.....') && (
-              <TouchableOpacity style={styles.readMoreButton}>
-                <MaterialIcons name="keyboard-arrow-down" size={22} color="#fff" />
+            {item.text.endsWith(".....") && (
+              <TouchableOpacity
+                onPress={() => toggleExpand(item.id)}
+                style={styles.readMoreButton}
+              >
+                <MaterialIcons
+                  name={
+                    expandedCardId === item.id
+                      ? "arrow-drop-up"
+                      : "arrow-drop-down"
+                  }
+                  size={30}
+                  color={color.white}
+                />
               </TouchableOpacity>
             )}
           </View>
@@ -85,30 +193,33 @@ export default function Reviews() {
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: '#fff',
+    backgroundColor: color.white,
     borderRadius: 16,
     padding: 16,
-    shadowColor: '#000',
-    shadowOpacity: 0.05,
-    shadowOffset: { width: 0, height: 2 },
     shadowRadius: 4,
-    elevation: 2,
-    position: 'relative',
+    position: "relative",
+  },
+  avatharring: {
+    padding: 3,
+    backgroundColor: color.neutral[200],
+    borderRadius: 50,
+    marginRight: 5,
   },
   avatar: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    resizeMode: 'cover',
+    width: 45,
+    height: 45,
+    borderRadius: 50,
+    resizeMode: "cover",
   },
   readMoreButton: {
-    position: 'absolute',
-    bottom: 10,
-    right: 10,
-    backgroundColor: '#00B67A',
-    borderRadius: 20,
-    padding: 5,
-    alignItems: 'center',
-    justifyContent: 'center',
+    position: "absolute",
+    bottom: -15,
+    right: 30,
+    height: 30,
+    width: 30,
+    backgroundColor: color.primary,
+    borderRadius: 50,
+    alignItems: "center",
+    justifyContent: "center",
   },
 });

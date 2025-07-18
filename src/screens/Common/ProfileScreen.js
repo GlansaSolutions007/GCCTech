@@ -11,55 +11,21 @@ import globalStyles from "../../styles/globalStyles";
 import { Ionicons } from "@expo/vector-icons";
 import profilepic from "../../../assets/images/persontwo.jpg";
 import { color } from "../../styles/theme";
-import Switch from "../../components/Switch";
 import locationicon from "../../../assets/icons/Navigation/LocationsPin.png";
 import person from "../../../assets/icons/Navigation/techProfile.png";
 import { useNavigation } from "@react-navigation/native";
+import AvailabilityHeader from "../../components/AvailabilityHeader";
 export default function ProfileScreen() {
   const [isOnline, setIsOnline] = useState(true);
 
   const navigation = useNavigation();
-  const review=()=>{
-navigation.navigate("reviews")
-  }
+  const review = () => {
+    navigation.navigate("reviews");
+  };
   return (
     <ScrollView style={[globalStyles.bgcontainer]}>
       <View style={globalStyles.container}>
-        <View
-          style={[
-            globalStyles.bgprimary,
-            globalStyles.p4,
-            globalStyles.borderRadiuslarge,
-            globalStyles.flexrow,
-            globalStyles.justifysb,
-            globalStyles.alineItemscenter,
-          ]}
-        >
-          <View>
-            <CustomText style={[globalStyles.f16Bold, globalStyles.textWhite]}>
-              Wednesday, July 16
-            </CustomText>
-            <View style={[globalStyles.flexrow, globalStyles.alineItemscenter]}>
-              <CustomText
-                style={[globalStyles.f28Bold, globalStyles.textWhite]}
-              >
-                Today{" "}
-              </CustomText>
-              <CustomText
-                style={[
-                  globalStyles.f16Light,
-                  globalStyles.neutral100,
-                  globalStyles.alineSelfend,
-                ]}
-              >
-                (Online)
-              </CustomText>
-            </View>
-          </View>
-          <View style={globalStyles.alineSelfend}>
-            <Switch />
-          </View>
-        </View>
+        <AvailabilityHeader />
         <View style={[globalStyles.flexrow, globalStyles.mv5]}>
           <View
             style={[
@@ -150,7 +116,7 @@ navigation.navigate("reviews")
               4.5
             </CustomText>
             <TouchableOpacity onPress={review}>
-            <CustomText>Review Ratings</CustomText>
+              <CustomText>Review Ratings</CustomText>
             </TouchableOpacity>
           </View>
           <View style={styles.gridItem}>
