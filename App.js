@@ -1,23 +1,19 @@
 import "react-native-gesture-handler";
-import { View } from "react-native";
 import React, { useCallback } from "react";
+import { View } from "react-native";
 import * as Font from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
-import RootNavigator from "./src/navigation/RootNavigator";
 import { AuthProvider } from "./src/contexts/AuthContext";
+import RootNavigator from "./src/navigation/RootNavigator";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import { Text, TextInput } from 'react-native';
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { Text, TextInput } from "react-native";
 
 if (Text.defaultProps == null) Text.defaultProps = {};
 Text.defaultProps.allowFontScaling = false;
 
 if (TextInput.defaultProps == null) TextInput.defaultProps = {};
 TextInput.defaultProps.allowFontScaling = false;
-
-// import { Text } from "react-native";
-// if (Text.defaultProps == null) Text.defaultProps = {};
-// Text.defaultProps.allowFontScaling = false;
-// SplashScreen.preventAutoHideAsync();
 
 export default function App() {
   const [fontsLoaded] = Font.useFonts({
@@ -35,12 +31,14 @@ export default function App() {
   if (!fontsLoaded) return null;
 
   return (
-    <SafeAreaProvider>
-    <View  style={{ flex: 1}} onLayout={onLayoutRootView}>
-      <AuthProvider>
-        <RootNavigator />
-      </AuthProvider>
-    </View>
-    </SafeAreaProvider>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <SafeAreaProvider>
+        <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
+          <AuthProvider>
+            <RootNavigator />
+          </AuthProvider>
+        </View>
+      </SafeAreaProvider>
+    </GestureHandlerRootView>
   );
 }

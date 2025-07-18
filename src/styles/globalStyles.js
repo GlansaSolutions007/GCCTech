@@ -11,6 +11,9 @@ export default StyleSheet.create({
   flex: {
     display: "flex",
   },
+  flex1: {
+    flex: 1,
+  },
   justifysb: {
     justifyContent: "space-between",
   },
@@ -181,6 +184,7 @@ export default StyleSheet.create({
   ml3: { marginLeft: 12 },
   ml4: { marginLeft: 16 },
   ml5: { marginLeft: 20 },
+  ml50: { marginLeft: 50 },
   // Right margins
   mr0: { marginRight: 0 },
   mr1: { marginRight: 4 },
@@ -240,6 +244,7 @@ export default StyleSheet.create({
   pr3: { paddingRight: 12 },
   pr4: { paddingRight: 16 },
   pr5: { paddingRight: 20 },
+  pr30: { paddingRight: 30 },
   // Horizontal paddings
   ph0: { paddingHorizontal: 0 },
   ph1: { paddingHorizontal: 4 },
@@ -265,6 +270,12 @@ export default StyleSheet.create({
   // Login button .............. end
 
   // Card ----------start
+  cardwidth: {
+    borderRadius: 20,
+    width: "90%",
+    alignSelf: "flex-end",
+  
+  },
   card: {
     borderRadius: 20,
     shadowColor: color.black,
@@ -272,6 +283,22 @@ export default StyleSheet.create({
     shadowOpacity: 0.05,
     shadowRadius: 8,
     elevation: 3,
+  },
+  avatarside: {
+    width: 80,
+    height: 110,
+    position: "absolute",
+    top: 0,
+    left: -50,
+    zIndex: 1,
+    borderRadius: 14,
+    borderWidth: 4,
+    shadowColor: color.black,
+    shadowOffset: { width: 4, height: 6 },
+    shadowOpacity: 0.15,
+    shadowRadius: 12,
+    elevation: 20,
+    borderColor: color.white,
   },
   // Card ............ end
 
