@@ -13,6 +13,7 @@ import Animated, {
 const color = {
   white: "#ffffff",
   red: "#fa7f7c",
+  grey: "#969696",
   green: "#136D6E",
   primaryLight: "#178F91",
 };
@@ -31,7 +32,7 @@ function AvailabilityHeader() {
     backgroundColor: interpolateColor(
       progress.value,
       [0, 1],
-      [color.red, color.green]
+      [color.grey, color.green]
     ),
   }));
 

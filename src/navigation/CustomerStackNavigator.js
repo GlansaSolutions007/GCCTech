@@ -5,6 +5,9 @@ import InteriorService from "../screens/InteriorService";
 import TaskReportsScreen from "../screens/TaskReportsScreen";
 import Reviews from "../screens/Reviews";
 import CustomerInfo from "../screens/CustomerInfo";
+import PrivacyPolicy from "../components/PrivacyPolicy";
+import TermsAndConditions from "../components/TermsAndCondition";
+import LeaveRequest from "../screens/LeaveRequest";
 
 const Stack = createNativeStackNavigator();
 
@@ -38,6 +41,21 @@ export default function CustomerStackNavigator() {
         name="reviews"
         component={Reviews}
         options={{ title: "Reviews" }}
+      />
+      <Stack.Screen
+        name="privacyPolicy"
+        component={PrivacyPolicy}
+        options={{ title: "Privacy Policy" }}
+      />
+      <Stack.Screen
+        name="termsAndConditions"
+        component={TermsAndConditions}
+        options={{ title: "Terms and Conditions" }}
+      />
+      <Stack.Screen
+        name="leaveRequest"
+        component={LeaveRequest}
+        options={{ title: "Leave Request" }}
       />
     </Stack.Navigator>
   );

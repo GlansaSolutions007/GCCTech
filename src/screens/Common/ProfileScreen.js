@@ -106,16 +106,16 @@ export default function ProfileScreen() {
             <CustomText>Services Completed</CustomText>
           </View>
           <View style={styles.gridItem}>
-            <CustomText
-              style={[
-                globalStyles.f40Bold,
-                globalStyles.alineSelfcenter,
-                globalStyles.primary,
-              ]}
-            >
-              4.5
-            </CustomText>
             <TouchableOpacity onPress={review}>
+              <CustomText
+                style={[
+                  globalStyles.f40Bold,
+                  globalStyles.alineSelfcenter,
+                  globalStyles.primary,
+                ]}
+              >
+                4.5
+              </CustomText>
               <CustomText>Review Ratings</CustomText>
             </TouchableOpacity>
           </View>
@@ -144,28 +144,83 @@ export default function ProfileScreen() {
             <CustomText>Kilometers Traveled</CustomText>
           </View>
         </View>
+
         <View style={globalStyles.mt4}>
-          {[
-            "Leave Request",
-            "About App",
-            "Technician Privacy Policy",
-            "Terms & Conditions",
-            "Inventory Items Request",
-          ].map((label, index) => (
-            <View key={index}>
-              <TouchableOpacity
-                style={[
-                  globalStyles.flexrow,
-                  globalStyles.justifysb,
-                  globalStyles.mv3,
-                ]}
-              >
-                <CustomText>{label}</CustomText>
-                <Ionicons name="chevron-forward" size={16} color="#333" />
-              </TouchableOpacity>
-              <View style={styles.divider} />
-            </View>
-          ))}
+          <View>
+            <TouchableOpacity
+              onPress={() => navigation.navigate("leaveRequest")}
+              style={[
+                globalStyles.flexrow,
+                globalStyles.justifysb,
+                globalStyles.mv3,
+              ]}
+            >
+              <CustomText>Leave Request</CustomText>
+              <Ionicons name="chevron-forward" size={16} color="#333" />
+            </TouchableOpacity>
+            <View style={styles.divider} />
+          </View>
+        </View>
+        <View>
+          <View>
+            <TouchableOpacity
+              style={[
+                globalStyles.flexrow,
+                globalStyles.justifysb,
+                globalStyles.mv3,
+              ]}
+            >
+              <CustomText>About App</CustomText>
+              <Ionicons name="chevron-forward" size={16} color="#333" />
+            </TouchableOpacity>
+            <View style={styles.divider} />
+          </View>
+        </View>
+        <View>
+          <View>
+            <TouchableOpacity
+              onPress={() => navigation.navigate("privacyPolicy")}
+              style={[
+                globalStyles.flexrow,
+                globalStyles.justifysb,
+                globalStyles.mv3,
+              ]}
+            >
+              <CustomText>Technician Privacy Policy</CustomText>
+              <Ionicons name="chevron-forward" size={16} color="#333" />
+            </TouchableOpacity>
+            <View style={styles.divider} />
+          </View>
+        </View>
+        <View>
+          <View>
+            <TouchableOpacity
+              onPress={() => navigation.navigate("termsAndConditions")}
+              style={[
+                globalStyles.flexrow,
+                globalStyles.justifysb,
+                globalStyles.mv3,
+              ]}
+            >
+              <CustomText>Terms & Conditions</CustomText>
+              <Ionicons name="chevron-forward" size={16} color="#333" />
+            </TouchableOpacity>
+            <View style={styles.divider} />
+          </View>
+        </View>
+        <View>
+          <View>
+            <TouchableOpacity
+              style={[
+                globalStyles.flexrow,
+                globalStyles.justifysb,
+                globalStyles.mv3,
+              ]}
+            >
+              <CustomText>Inventory Items Request</CustomText>
+              <Ionicons name="chevron-forward" size={16} color="#333" />
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
     </ScrollView>
@@ -221,6 +276,7 @@ const styles = StyleSheet.create({
   },
   gridItem: {
     width: "45%",
+    alignItems: "center",
     marginBottom: 16,
   },
 });

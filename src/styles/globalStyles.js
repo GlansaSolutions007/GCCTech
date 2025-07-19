@@ -80,7 +80,7 @@ export default StyleSheet.create({
 
   container: {
     flex: 1,
-    paddingHorizontal: 12,
+    paddingHorizontal: 20,
     justifyContent: "center",
   },
   bgcontainer: {
