@@ -9,7 +9,7 @@ function AvailabilityHeader() {
      <View
           style={[
             globalStyles.bgprimary,
-            globalStyles.p4,
+            globalStyles.p3,
             globalStyles.borderRadiuslarge,
             globalStyles.flexrow,
             globalStyles.justifysb,
@@ -18,12 +18,12 @@ function AvailabilityHeader() {
           ]}
         >
           <View>
-            <CustomText style={[globalStyles.f16Bold, globalStyles.textWhite]}>
+            <CustomText style={[globalStyles.f12Bold, globalStyles.textWhite]}>
               Wednesday, July 16
             </CustomText>
             <View style={[globalStyles.flexrow, globalStyles.alineItemscenter]}>
               <CustomText
-                style={[globalStyles.f28Bold, globalStyles.textWhite]}
+                style={[globalStyles.f24Bold, globalStyles.textWhite]}
               >
                 Today{" "}
               </CustomText>

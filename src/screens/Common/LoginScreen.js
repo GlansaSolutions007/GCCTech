@@ -1,4 +1,4 @@
-import React, {  useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   TextInput,
@@ -31,44 +31,42 @@ export default function LoginScreen() {
   const [inputsDisabled, setInputsDisabled] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState("");
 
-
   const handleLoginWithPassword = async () => {
-  setLoading(true);
-  try {
-    const response = await axios.post(
-      "https://api.mycarsbuddy.com/api/Auth/Technician-login",
-      {
-        PhoneNumber: phoneNumber,
-        Password: password,
-      },
-      {
-        headers: {
-          "Content-Type": "application/json",
+    setLoading(true);
+    try {
+      const response = await axios.post(
+        "https://api.mycarsbuddy.com/api/Auth/Technician-login",
+        {
+          PhoneNumber: phoneNumber,
+          Password: password,
         },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (response.data?.success) {
+        login({
+          email: response.data.email,
+          token: response.data.token,
+        });
+
+        navigation.replace("CustomerTabs");
+      } else {
+        throw new Error(response.data?.message || "Login failed.");
       }
-    );
-
-    if (response.data?.success) {
-      login({
-        email: response.data.email,
-        token: response.data.token,
-      });
-
-      navigation.replace("CustomerTabs");
-    } else {
-      throw new Error(response.data?.message || "Login failed.");
+    } catch (error) {
+      console.error("Login error:", error?.response?.data || error.message);
+      setTitle("Login Failed");
+      setMessage(error?.response?.data?.message || error.message);
+      setStatus("error");
+      setShowAlert(true);
+    } finally {
+      setLoading(false);
     }
-  } catch (error) {
-    console.error("Login error:", error?.response?.data || error.message);
-    setTitle("Login Failed");
-    setMessage(error?.response?.data?.message || error.message);
-    setStatus("error");
-    setShowAlert(true);
-  } finally {
-    setLoading(false);
-  }
-};
-
+  };
 
   useEffect(() => {
     const showSub = Keyboard.addListener(
@@ -108,17 +106,16 @@ export default function LoginScreen() {
           />
         </View>
 
-       <TextInput
-  placeholder="Enter Phone Number"
-  placeholderTextColor={color.textWhite}
-  value={phoneNumber}
-  onChangeText={setPhoneNumber}
-  style={styles.textInput}
-  keyboardType="phone-pad"
-  autoCapitalize="none"
-  editable={!inputsDisabled}
-/>
-
+        <TextInput
+          placeholder="Enter Phone Number"
+          placeholderTextColor={color.textWhite}
+          value={phoneNumber}
+          onChangeText={setPhoneNumber}
+          style={styles.textInput}
+          keyboardType="phone-pad"
+          autoCapitalize="none"
+          editable={!inputsDisabled}
+        />
 
         <TextInput
           placeholder="Enter Password"
@@ -126,6 +123,7 @@ export default function LoginScreen() {
           value={password}
           onChangeText={setPassword}
           secureTextEntry={true}
+          F
           style={styles.textInput}
           editable={!inputsDisabled}
         />

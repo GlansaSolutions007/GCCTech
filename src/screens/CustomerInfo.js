@@ -170,13 +170,13 @@ export default function CustomerInfo() {
             Service Details
           </CustomText>
           <View style={[globalStyles.mt2, globalStyles.ph4]}>
-            <CustomText style={globalStyles.f20Medium}>
+            <CustomText style={globalStyles.f18Medium}>
               • Leather Fabric Seat Polishing
             </CustomText>
-            <CustomText style={globalStyles.f20Medium}>
+            <CustomText style={globalStyles.f18Medium}>
               • AC Vent Sanitization
             </CustomText>
-            <CustomText style={globalStyles.f20Medium}>
+            <CustomText style={globalStyles.f18Medium}>
               • Mat Washing & Vacuuming
             </CustomText>
           </View>
