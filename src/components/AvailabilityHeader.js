@@ -1,19 +1,19 @@
-import React, { useState } from 'react';
-import { View, Pressable, StyleSheet } from 'react-native';
-import CustomText from './CustomText';
-import globalStyles from '../styles/globalStyles';
+import React, { useState } from "react";
+import { View, Pressable, StyleSheet } from "react-native";
+import CustomText from "./CustomText";
+import globalStyles from "../styles/globalStyles";
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
   withTiming,
   interpolate,
   interpolateColor,
-} from 'react-native-reanimated';
+} from "react-native-reanimated";
 
 const color = {
-  white: '#ffffff',
-  red: '#fa7f7c',
-  green: '#136D6E',
+  white: "#ffffff",
+  red: "#fa7f7c",
+  green: "#136D6E",
   primaryLight: "#178F91",
 };
 
@@ -36,12 +36,20 @@ function AvailabilityHeader() {
   }));
 
   const trackStyle = useAnimatedStyle(() => ({
-    backgroundColor: interpolateColor(progress.value, [0, 1], [color.white, color.white]),
+    backgroundColor: interpolateColor(
+      progress.value,
+      [0, 1],
+      [color.white, color.white]
+    ),
   }));
 
   const thumbStyle = useAnimatedStyle(() => {
     const translateY = interpolate(progress.value, [0, 1], [25, 4]);
-    const backgroundColor = interpolateColor(progress.value, [0, 1], [color.red, color.primaryLight]);
+    const backgroundColor = interpolateColor(
+      progress.value,
+      [0, 1],
+      [color.red, color.primaryLight]
+    );
 
     return {
       transform: [{ translateY }],
@@ -77,7 +85,7 @@ function AvailabilityHeader() {
         </CustomText>
         <View style={[globalStyles.flexrow, globalStyles.alineItemscenter]}>
           <CustomText style={[globalStyles.f24Bold, globalStyles.textWhite]}>
-            Today{' '}
+            Today{" "}
           </CustomText>
           <CustomText
             style={[
@@ -86,7 +94,7 @@ function AvailabilityHeader() {
               globalStyles.alineSelfend,
             ]}
           >
-            ({isOnline ? 'Online' : 'Offline'})
+            ({isOnline ? "Online" : "Offline"})
           </CustomText>
         </View>
       </View>
@@ -105,11 +113,11 @@ const styles = StyleSheet.create({
     backgroundColor: color.white,
     borderRadius: 15,
     padding: 4,
-    justifyContent: 'flex-start',
-    overflow: 'hidden',
+    justifyContent: "flex-start",
+    overflow: "hidden",
   },
   thumb: {
-    width: '100%',
+    width: "100%",
     height: 24,
     borderRadius: 10,
   },
