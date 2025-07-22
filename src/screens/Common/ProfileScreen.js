@@ -79,8 +79,7 @@ export default function ProfileScreen() {
         </View>
       </View>
 
-      {/* Stats Card */}
-      <View style={[styles.statsCard]}>
+     <View style={[styles.statsCard]}>
         <View style={[globalStyles.flexrow, globalStyles.justifycenter]}>
           {[1, 2, 3].map((_, i) => (
             <Ionicons
@@ -146,6 +145,20 @@ export default function ProfileScreen() {
         </View>
 
         <View style={globalStyles.mt4}>
+          <View>
+            <TouchableOpacity
+              onPress={() => navigation.navigate("leaveRequestList")}
+              style={[
+                globalStyles.flexrow,
+                globalStyles.justifysb,
+                globalStyles.mv3,
+              ]}
+            >
+              <CustomText>Leave Request List</CustomText>
+              <Ionicons name="chevron-forward" size={16} color="#333" />
+            </TouchableOpacity>
+            <View style={styles.divider} />
+          </View>
           <View>
             <TouchableOpacity
               onPress={() => navigation.navigate("leaveRequest")}

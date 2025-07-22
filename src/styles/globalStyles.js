@@ -62,6 +62,9 @@ export default StyleSheet.create({
   w60: {
     width: "60%",
   },
+  w100: {
+    width: "100%",
+  },
   divider: {
     height: 1.5,
     backgroundColor: color.neutral[200],
@@ -109,6 +112,12 @@ export default StyleSheet.create({
   },
   red: {
     color: color.red,
+  },
+  fullred: {
+    color: color.fullred,
+  },
+  fullredLight: {
+    color: color.fullredLight,
   },
   neutral100: {
     color: color.neutral[100],
@@ -262,7 +271,24 @@ export default StyleSheet.create({
   // margins and paddings .............. end
 
   // inputBox  ----------- start
-
+  inputBox: {
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderRadius: 10,
+    backgroundColor: "#fff",
+    paddingVertical: 16,
+    paddingHorizontal: 14,
+    justifyContent: "center",
+  },
+    textArea: {
+    backgroundColor: "#fff",
+    borderRadius: 10,
+    borderColor: "#ccc",
+    borderWidth: 1,
+    padding: 12,
+    textAlignVertical: "top",
+    minHeight: 100,
+  },
   //  inputBox .............. end
 
   // Login button ----------- start

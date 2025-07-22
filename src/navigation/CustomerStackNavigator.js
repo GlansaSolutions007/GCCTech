@@ -8,6 +8,7 @@ import CustomerInfo from "../screens/CustomerInfo";
 import PrivacyPolicy from "../components/PrivacyPolicy";
 import TermsAndConditions from "../components/TermsAndCondition";
 import LeaveRequest from "../screens/LeaveRequest";
+import LeaveRequestList from "../screens/LeaveRequestList";
 
 const Stack = createNativeStackNavigator();
 
@@ -56,6 +57,11 @@ export default function CustomerStackNavigator() {
         name="leaveRequest"
         component={LeaveRequest}
         options={{ title: "Leave Request" }}
+      />
+      <Stack.Screen
+        name="leaveRequestList"
+        component={LeaveRequestList}
+        options={{ title: "Leave Request List" }}
       />
     </Stack.Navigator>
   );

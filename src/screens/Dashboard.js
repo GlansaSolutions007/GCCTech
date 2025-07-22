@@ -17,6 +17,7 @@ import dateicon from "../../assets/icons/Navigation/schedule.png";
 import dashboardicon from "../../assets/icons/Navigation/techhom.png";
 import reportsicon from "../../assets/icons/Navigation/reports.png";
 import AvailabilityHeader from "../components/AvailabilityHeader";
+import Pcicon from "../../assets/icons/Navigation/bookings 2.png";
 import { useNavigation } from "@react-navigation/native";
 
 export default function Dashboard() {
@@ -36,25 +37,34 @@ export default function Dashboard() {
         <View
           style={[
             globalStyles.card,
+            globalStyles.cardwidth,
             globalStyles.bgwhite,
             globalStyles.p4,
             globalStyles.mt5,
           ]}
         >
-          <Text style={[globalStyles.f16Bold, globalStyles.alineSelfend]}>
-            Todays Service Bookings
-          </Text>
+          <View style={[globalStyles.flexrow, globalStyles.alineItemscenter]}>
+            <View style={[styles.Pcicon]}>
+              <Image source={Pcicon} style={[styles.Pcicons]} />
+            </View>
+            <View style={[globalStyles.ml50, globalStyles.flex1]}>
+              <Text style={[globalStyles.f16Bold, globalStyles.alineSelfend]}>
+                Todays Service Bookings
+              </Text>
 
-          <Text
-            style={[
-              globalStyles.f44Bold,
-              globalStyles.primary,
-              globalStyles.mb2,
-              globalStyles.alineSelfend,
-            ]}
-          >
-            04
-          </Text>
+              <Text
+                style={[
+                  globalStyles.f44Bold,
+                  globalStyles.primary,
+                  globalStyles.mb2,
+                  globalStyles.alineSelfend,
+                ]}
+              >
+                04
+              </Text>
+            </View>
+          </View>
+
           <View style={globalStyles.divider} />
 
           <View style={[globalStyles.flexrow, globalStyles.justifysb]}>
@@ -390,6 +400,29 @@ function IconLabel({ icon, label }) {
 }
 
 const styles = StyleSheet.create({
+  Pcicon: {
+    width: 70,
+    height: 70,
+    position: "absolute",
+    justifyContent: "center",
+    alignItems: "center",
+    top: 0,
+    left: -50,
+    zIndex: 1,
+    borderRadius: 14,
+    shadowColor: color.black,
+    shadowOffset: { width: 4, height: 6 },
+    shadowOpacity: 0.15,
+    shadowRadius: 12,
+    elevation: 20,
+    borderColor: color.white,
+    backgroundColor: color.white,
+    resizeMode: "cover",
+  },
+  Pcicons: {
+    width: 50,
+    height: 50,
+  },
   icons: {
     width: 11,
     height: 16,

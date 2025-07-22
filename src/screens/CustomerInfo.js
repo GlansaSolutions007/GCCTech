@@ -298,7 +298,6 @@ export default function CustomerInfo() {
             </TouchableOpacity>
           </View>
 
-         
           <SafeAreaView style={{ flex: 1 }}>
             <SlideButton onComplete={() => Alert.alert("✅ Ride Started")} />
           </SafeAreaView>
