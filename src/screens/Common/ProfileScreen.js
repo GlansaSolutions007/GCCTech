@@ -1,27 +1,75 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Image,
   StyleSheet,
   TouchableOpacity,
   ScrollView,
+  ActivityIndicator,
 } from "react-native";
 import CustomText from "../../components/CustomText";
 import globalStyles from "../../styles/globalStyles";
 import { Ionicons } from "@expo/vector-icons";
-import profilepic from "../../../assets/images/persontwo.jpg";
 import { color } from "../../styles/theme";
 import locationicon from "../../../assets/icons/Navigation/LocationsPin.png";
 import person from "../../../assets/icons/Navigation/techProfile.png";
 import { useNavigation } from "@react-navigation/native";
 import AvailabilityHeader from "../../components/AvailabilityHeader";
-export default function ProfileScreen() {
-  const [isOnline, setIsOnline] = useState(true);
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
 
+export default function ProfileScreen() {
+  const [profileData, setProfileData] = useState(null);
+  const [loading, setLoading] = useState(true);
   const navigation = useNavigation();
-  const review = () => {
-    navigation.navigate("reviews");
-  };
+
+  useEffect(() => {
+    const fetchTechnicianDetails = async () => {
+      try {
+        // const storedTechId = await AsyncStorage.getItem("technicianid");
+        // await AsyncStorage.setItem("technicianid", "78");
+        const storedTechId = await AsyncStorage.getItem("technicianid");
+        const techId = storedTechId || "78";
+
+        console.log("Fetching technician data for ID:", techId);
+
+        const response = await axios.get(
+          `https://api.mycarsbuddy.com/api/TechniciansDetails/technicianid?technicianid=${techId}`
+        );
+
+        if (response.data?.status && response.data?.data) {
+          setProfileData(response.data.data);
+          console.log("Profile data fetched:", response.data.data);
+        } else {
+          console.warn("Unexpected response:", response.data);
+        }
+      } catch (error) {
+        console.error("Failed to fetch technician details:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTechnicianDetails();
+  }, []);
+
+  const review = () => navigation.navigate("reviews");
+
+  if (loading) {
+    return (
+      <View
+        style={[
+          globalStyles.container,
+          globalStyles.justifycenter,
+          globalStyles.alineItemscenter,
+        ]}
+      >
+        <ActivityIndicator size="large" color={color.primary} />
+        <CustomText style={[globalStyles.mt3]}>Loading...</CustomText>
+      </View>
+    );
+  }
+
   return (
     <ScrollView style={[globalStyles.bgcontainer]}>
       <View style={globalStyles.container}>
@@ -34,17 +82,26 @@ export default function ProfileScreen() {
               globalStyles.mr4,
             ]}
           >
-            <Image source={profilepic} style={styles.avatar} />
+            <Image
+              source={
+                profileData?.ProfileImage
+                  ? {
+                      uri: `https://api.mycarsbuddy.com/${profileData.ProfileImage}`,
+                    }
+                  : require("../../../assets/images/persontwo.jpg")
+              }
+              style={styles.avatar}
+            />
           </View>
           <View>
             <CustomText style={[globalStyles.f24Bold, globalStyles.primary]}>
-              Bhuvan Raj
+              {profileData?.TechnicianName ?? "Name Unavailable"}
             </CustomText>
             <CustomText style={[globalStyles.f12Medium]}>
-              Mobile: 9988776655
+              Mobile: {profileData?.PhoneNumber ?? "-"}
             </CustomText>
             <CustomText style={[globalStyles.f12Medium]}>
-              Email : bhuvan@carbuddy.com
+              Email: {profileData?.Email ?? "-"}
             </CustomText>
             <View
               style={[
@@ -57,7 +114,7 @@ export default function ProfileScreen() {
                 <Image source={locationicon} style={styles.icons} />
               </View>
               <CustomText style={globalStyles.f12Bold}>
-                Telangana, Hyderabad
+                {profileData?.StateName}, {profileData?.CityName}
               </CustomText>
             </View>
             <View
@@ -70,16 +127,15 @@ export default function ProfileScreen() {
               <View style={styles.iconbg}>
                 <Image source={person} style={styles.icons} />
               </View>
-
               <CustomText style={globalStyles.f12Bold}>
-                Dealer: Shantanu
+                Dealer: {profileData?.DealerName ?? "-"}
               </CustomText>
             </View>
           </View>
         </View>
       </View>
 
-     <View style={[styles.statsCard]}>
+      <View style={styles.statsCard}>
         <View style={[globalStyles.flexrow, globalStyles.justifycenter]}>
           {[1, 2, 3].map((_, i) => (
             <Ionicons
@@ -91,6 +147,7 @@ export default function ProfileScreen() {
             />
           ))}
         </View>
+
         <View style={styles.gridContainer}>
           <View style={styles.gridItem}>
             <CustomText
@@ -100,7 +157,7 @@ export default function ProfileScreen() {
                 globalStyles.primary,
               ]}
             >
-              15
+              {profileData?.ServiceCompleted ?? "0"}
             </CustomText>
             <CustomText>Services Completed</CustomText>
           </View>
@@ -113,7 +170,7 @@ export default function ProfileScreen() {
                   globalStyles.primary,
                 ]}
               >
-                4.5
+                {profileData?.Rating ?? "0.0"}
               </CustomText>
               <CustomText>Review Ratings</CustomText>
             </TouchableOpacity>
@@ -126,7 +183,7 @@ export default function ProfileScreen() {
                 globalStyles.primary,
               ]}
             >
-              10+
+              {profileData?.ServedCustomers ?? "0+"}
             </CustomText>
             <CustomText>Served Customers</CustomText>
           </View>
@@ -138,102 +195,36 @@ export default function ProfileScreen() {
                 globalStyles.primary,
               ]}
             >
-              108
+              {profileData?.KilometersTravelled ?? "0"}
             </CustomText>
             <CustomText>Kilometers Traveled</CustomText>
           </View>
         </View>
 
         <View style={globalStyles.mt4}>
-          <View>
-            <TouchableOpacity
-              onPress={() => navigation.navigate("leaveRequestList")}
-              style={[
-                globalStyles.flexrow,
-                globalStyles.justifysb,
-                globalStyles.mv3,
-              ]}
-            >
-              <CustomText>Leave Request List</CustomText>
-              <Ionicons name="chevron-forward" size={16} color="#333" />
-            </TouchableOpacity>
-            <View style={styles.divider} />
-          </View>
-          <View>
-            <TouchableOpacity
-              onPress={() => navigation.navigate("leaveRequest")}
-              style={[
-                globalStyles.flexrow,
-                globalStyles.justifysb,
-                globalStyles.mv3,
-              ]}
-            >
-              <CustomText>Leave Request</CustomText>
-              <Ionicons name="chevron-forward" size={16} color="#333" />
-            </TouchableOpacity>
-            <View style={styles.divider} />
-          </View>
-        </View>
-        <View>
-          <View>
-            <TouchableOpacity
-              style={[
-                globalStyles.flexrow,
-                globalStyles.justifysb,
-                globalStyles.mv3,
-              ]}
-            >
-              <CustomText>About App</CustomText>
-              <Ionicons name="chevron-forward" size={16} color="#333" />
-            </TouchableOpacity>
-            <View style={styles.divider} />
-          </View>
-        </View>
-        <View>
-          <View>
-            <TouchableOpacity
-              onPress={() => navigation.navigate("privacyPolicy")}
-              style={[
-                globalStyles.flexrow,
-                globalStyles.justifysb,
-                globalStyles.mv3,
-              ]}
-            >
-              <CustomText>Technician Privacy Policy</CustomText>
-              <Ionicons name="chevron-forward" size={16} color="#333" />
-            </TouchableOpacity>
-            <View style={styles.divider} />
-          </View>
-        </View>
-        <View>
-          <View>
-            <TouchableOpacity
-              onPress={() => navigation.navigate("termsAndConditions")}
-              style={[
-                globalStyles.flexrow,
-                globalStyles.justifysb,
-                globalStyles.mv3,
-              ]}
-            >
-              <CustomText>Terms & Conditions</CustomText>
-              <Ionicons name="chevron-forward" size={16} color="#333" />
-            </TouchableOpacity>
-            <View style={styles.divider} />
-          </View>
-        </View>
-        <View>
-          <View>
-            <TouchableOpacity
-              style={[
-                globalStyles.flexrow,
-                globalStyles.justifysb,
-                globalStyles.mv3,
-              ]}
-            >
-              <CustomText>Inventory Items Request</CustomText>
-              <Ionicons name="chevron-forward" size={16} color="#333" />
-            </TouchableOpacity>
-          </View>
+          {[
+            { label: "Leave Request List", route: "leaveRequestList" },
+            { label: "Leave Request", route: "leaveRequest" },
+            { label: "About App" },
+            { label: "Technician Privacy Policy", route: "privacyPolicy" },
+            { label: "Terms & Conditions", route: "termsAndConditions" },
+            { label: "Inventory Items Request" },
+          ].map((item, idx) => (
+            <View key={idx}>
+              <TouchableOpacity
+                onPress={() => item.route && navigation.navigate(item.route)}
+                style={[
+                  globalStyles.flexrow,
+                  globalStyles.justifysb,
+                  globalStyles.mv3,
+                ]}
+              >
+                <CustomText>{item.label}</CustomText>
+                <Ionicons name="chevron-forward" size={16} color="#333" />
+              </TouchableOpacity>
+              {idx < 5 && <View style={styles.divider} />}
+            </View>
+          ))}
         </View>
       </View>
     </ScrollView>
@@ -259,21 +250,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginRight: 5,
   },
-  container: {
-    flex: 1,
-  },
   avatar: {
     width: 130,
     height: 150,
     borderWidth: 8,
     borderColor: color.white,
     borderRadius: 8,
-  },
-  switchBox: {
-    width: 32,
-    height: 32,
-    borderRadius: 8,
-    backgroundColor: "#fff",
   },
   statsCard: {
     backgroundColor: "#fff",

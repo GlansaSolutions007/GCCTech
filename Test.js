@@ -1,463 +1,80 @@
-import React, { use, useEffect, useRef, useState } from "react";
+import React from "react";
 import {
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
   Image,
+  ScrollView,
+  View,
   StyleSheet,
-  ImageBackground,
-  KeyboardAvoidingView,
-  Platform,
-  Keyboard,
-  TouchableWithoutFeedback,
+  TouchableOpacity,
 } from "react-native";
-import fonts from "../../styles/fonts";
-import { Ionicons } from "@expo/vector-icons";
-import globalStyles from "../../styles/globalStyles";
-import CustomAlert from "../../components/CustomAlert";
-import { demoUsers } from "../../constants/demoUsers";
-import { useAuth } from "../../contexts/AuthContext";
-import { color } from "../../styles/theme";
-import CustomText from "../../components/CustomText";
-import { useNavigation } from "@react-navigation/native";
-import * as Device from "expo-device";
-import { registerForPushNotificationsAsync } from "../../utils/notifications";
-import AntDesign from "@expo/vector-icons/AntDesign";
-import Google from "../../../assets/icons/SocialMedia/google-logo.png";
-export default function LoginScreen() {
-  const { login } = useAuth();
-  const [keyboardVisible, setKeyboardVisible] = useState(false);
-  const [inputValue, setInputValue] = useState("");
-  const [showAlert, setShowAlert] = useState(false);
-  const [status, setStatus] = useState("info");
-  const [message, setMessage] = useState("");
-  const [title, setTitle] = useState("Login Info");
-  const [email, setEmail] = useState("");
-  // const [otp, setOtp] = useState("");
-  const [otpSent, setOtpSent] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const navigation = useNavigation();
-  const [otp, setOtp] = useState(["", "", "", "", "", ""]);
-  const inputRefs = useRef([]);
+import CustomText from "../components/CustomText";
+import globalStyles from "../styles/globalStyles";
+import leaveRequestImage from "../../assets/images/leave.png";
 
-  const handleChange = (text, index) => {
-    const newOtp = [...otp];
-    newOtp[index] = text;
-    setOtp(newOtp);
-
-    if (text.length === 1 && index < 5) {
-      inputRefs.current[index + 1]?.focus();
-    }
-  };
-
-  const handleKeyPress = (e, index) => {
-    if (e.nativeEvent.key === "Backspace" && !otp[index] && index > 0) {
-      const newOtp = [...otp];
-      newOtp[index - 1] = "";
-      setOtp(newOtp);
-      inputRefs.current[index - 1]?.focus();
-    }
-  };
-
-  const handleSendOtp = async () => {
-    if (!email) {
-      setTitle("Missing Email");
-      setMessage("Please enter your email.");
-      setStatus("error");
-      setShowAlert(true);
-      return;
-    }
-
-    setLoading(true);
-    try {
-      const response = await fetch(
-        "https://api.mycarsbuddy.com/api/Auth/send-otp",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ Email: email }),
-        }
-      );
-
-      if (response.ok) {
-        setOtpSent(true);
-        setTitle("OTP Sent");
-        setMessage("Please check your email for the OTP.");
-        setStatus("success");
-      } else {
-        const errorText = await response.text();
-        throw new Error(errorText);
-      }
-    } catch (error) {
-      setTitle("Send OTP Failed");
-      setMessage("Something went wrong." || error.message);
-      setStatus("error");
-    } finally {
-      setShowAlert(true);
-      setLoading(false);
-    }
-  };
-
-  const handleVerifyOtp = async () => {
-    if (!otp) {
-      setTitle("Missing OTP");
-      setMessage("Please enter the OTP.");
-      setStatus("error");
-      setShowAlert(true);
-      return;
-    }
-
-    setLoading(true);
-    try {
-      const DeviceId =
-        Device.osInternalBuildId || Device.osBuildId || "unknown-device-id";
-
-      // const deviceToken = await registerForPushNotificationsAsync();
-      const DeviceToken = "dummy_token";
-
-      const response = await fetch(
-        "https://api.mycarsbuddy.com/api/Auth/verify-otp",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ Email: email, otp }),
-        }
-      );
-
-      const result = await response.json();
-      console.log("Device Id:", DeviceId);
-      console.log("Device Token:", DeviceToken);
-
-      if (response.ok && result?.success) {
-        login({
-          email: result.email,
-          token: result.token,
-          DeviceToken,
-          DeviceId,
-        });
-
-        navigation.replace("CustomerTabs");
-      } else {
-        throw new Error(result?.message || "Invalid OTP.");
-      }
-    } catch (error) {
-      setTitle("OTP Verification Failed");
-      setMessage(error.message || "Unable to verify OTP.");
-      setStatus("error");
-      setShowAlert(true);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    const showSub = Keyboard.addListener(
-      Platform.OS === "ios" ? "keyboardWillShow" : "keyboardDidShow",
-      () => setKeyboardVisible(true)
-    );
-    const hideSub = Keyboard.addListener(
-      Platform.OS === "ios" ? "keyboardWillHide" : "keyboardDidHide",
-      () => setKeyboardVisible(false)
-    );
-
-    return () => {
-      showSub.remove();
-      hideSub.remove();
-    };
-  }, []);
-
+export default function LeaveRequest() {
   return (
-    <View style={[globalStyles.bgprimary, globalStyles.container]}>
-      {!keyboardVisible && (
-        <TouchableOpacity
-          style={styles.skipButton}
-          onPress={() => navigation.replace("CustomerTabs")}
-        >
-          <View style={styles.skipContent}>
-            <CustomText style={styles.skipText}>Skip</CustomText>
-            <AntDesign name="doubleright" size={16} color="white" />
-          </View>
-        </TouchableOpacity>
-      )}
-      <View />
-      <View>
-        {/* {!keyboardVisible && ( */}
-          <View>
-            <Image
-              source={require("../../../assets/Logo/my car buddy-02 yellow-01.png")}
-              style={styles.logo}
-            />
-          </View>
-        {/* )} */}
-
-        <TextInput
-          placeholder="Enter Email Id Phone Number"
-          placeholderTextColor={color.textWhite}
-          value={email}
-          onChangeText={setEmail}
-          style={styles.textInput}
-          keyboardType="email-address"
-          autoCapitalize="none"
+    <ScrollView
+      contentContainerStyle={styles.scrollContent}
+      style={[globalStyles.bgcontainer]}
+    >
+      <View style={styles.imageContainer}>
+        <Image
+          source={leaveRequestImage}
+          style={[styles.image, { width: 300, height: 330 }]}
         />
-
-        {otpSent && (
-          <View style={styles.otpContainer}>
-            {otp.map((digit, index) => (
-              <TextInput
-                key={index}
-                ref={(ref) => (inputRefs.current[index] = ref)}
-                style={styles.otpBox}
-                keyboardType="number-pad"
-                maxLength={1}
-                value={digit}
-                onChangeText={(text) => handleChange(text, index)}
-                onKeyPress={(e) => handleKeyPress(e, index)}
-                autoFocus={index === 0}
-              />
-            ))}
-          </View>
-        )}
-
-        <TouchableOpacity
-          style={styles.button}
-          onPress={otpSent ? handleVerifyOtp : handleSendOtp}
-          disabled={loading}
-        >
-          <CustomText style={[globalStyles.f16Regular, globalStyles.textWhite]}>
-            {loading
-              ? "Please wait..."
-              : otpSent
-              ? "Login"
-              : "Get OTP"}
-          </CustomText>
-        </TouchableOpacity>
-        {/* {!keyboardVisible && ( */}
-          <>
-            <TouchableOpacity style={[styles.googleButton, globalStyles.ph4]}>
-              <Image source={Google} style={styles.googleicon} />
-              <CustomText style={globalStyles.f10Bold}>
-                Login with Google
-              </CustomText>
-            </TouchableOpacity>
-          </>
-        {/* )} */}
       </View>
 
-      {/* Components */}
-      <CustomAlert
-        visible={showAlert}
-        status={status}
-        title={title}
-        message={message}
-        onClose={() => setShowAlert(false)}
-      />
-    </View>
+      <View style={styles.bottomContainer}>
+        <TouchableOpacity style={styles.button}>
+          <CustomText style={[styles.buttonText, globalStyles.f16Bold]}>
+            Request for leaves
+          </CustomText>
+        </TouchableOpacity>
+
+        <CustomText style={[styles.subText, globalStyles.f12Regular]}>
+          All the leave requests approved or denied by dealer
+        </CustomText>
+      </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  otpContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginBottom: 20,
-  },
-
-  otpBox: {
-    borderRadius: 8,
-    padding: 12,
-    backgroundColor: color.white,
-    fontSize: 18,
-    textAlign: "center",
-    width: 45,
-    height: 45,
-  },
-  googleicon: {
-    width: 35,
-    height: 45,
-    resizeMode: "contain",
-  },
-  logo: {
-    width: 200,
-    height: 100,
-    resizeMode: "contain",
-    alignSelf: "center",
-    marginBottom: 100,
-  },
-
-  skipButton: {
-    position: "absolute",
-    top: 50,
-    right: 20,
-    zIndex: 10,
-    backgroundColor: "rgba(255, 255, 255, 0.3)",
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    borderRadius: 12,
-  },
-  skipContent: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 4,
-  },
-  skipText: {
-    color: "#fff",
-    fontSize: 16,
-    fontWeight: "600",
-  },
-  googleButton: {
-    marginTop: 40,
-    flexDirection: "row",
-    backgroundColor: color.white,
-    borderRadius: 24,
-    alignItems: "center",
+  scrollContent: {
+    flexGrow: 1,
     justifyContent: "center",
-    alignSelf: "center",
-    gap: 10,
+    alignItems: "center",
+    paddingVertical: 40,
+    paddingHorizontal: 20,
   },
-
-  title: {
-    // fontFamily: fonts.bold,
-    fontSize: 22,
-    color: color.white,
+  imageContainer: {
+    alignItems: "center",
+    marginBottom: 40,
   },
-  titleBlack: {
-    // fontFamily: fonts.bold,
-    fontSize: 22,
-    color: color.black,
+  image: {
+    width: 200,
+    height: 220,
+    resizeMode: "contain",
   },
-  textInput: {
-    borderBottomWidth: 1,
-    borderColor: color.white,
-    paddingVertical: 10,
-    color: color.white,
-    // fontFamily: fonts.regular,
-    fontSize: 16,
-    marginBottom: 20,
+  bottomContainer: {
+    alignItems: "center",
+    width: "100%",
   },
   button: {
-    backgroundColor: color.primaryLight,
+    backgroundColor: "#F8B400",
     paddingVertical: 14,
-    borderRadius: 8,
+    borderRadius: 12,
+    width: "80%",
     alignItems: "center",
-    marginTop: 10,
+    marginBottom: 12,
   },
-
-  // Home Screen Styles
-  header: {
-    backgroundColor: color.primary || "#017F77",
-    padding: 20,
-  },
-  greeting: {
-    color: color.white,
+  buttonText: {
+    color: "#fff",
+    fontWeight: "bold",
     fontSize: 16,
-    // fontFamily: fonts.medium,
   },
-  locationRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginTop: 4,
-  },
-  location: {
-    color: color.white,
-    fontSize: 14,
-    marginRight: 5,
-    // fontFamily: fonts.regular,
-  },
-  banner: {
-    backgroundColor: color.primary || "#017F77",
-    padding: 20,
-    borderBottomLeftRadius: 20,
-    borderBottomRightRadius: 20,
-    alignItems: "center",
-  },
-  carImage: {
-    width: "100%",
-    height: 130,
-  },
-  bannerTitle: {
-    fontSize: 22,
-    color: color.white,
-    // fontFamily: fonts.semiBold,
-    marginTop: 10,
-  },
-
-  bannerSubtitle: {
-    fontSize: 14,
-    color: color.white,
-    // fontFamily: fonts.regular,
-    marginTop: 5,
+  subText: {
+    fontSize: 13,
+    color: "#999",
     textAlign: "center",
-  },
-  sectionTitle: {
-    fontSize: 16,
-    // fontFamily: fonts.medium,
-    marginVertical: 20,
-    marginLeft: 20,
-    color: color.textDark,
-  },
-  services: {
-    flexDirection: "row",
-    justifyContent: "space-around",
-    paddingHorizontal: 16,
-  },
-  card: {
-    backgroundColor: color.lightGreen || "#E0F7F4",
-    borderRadius: 10,
-    width: "42%",
-    overflow: "hidden",
-    alignItems: "center",
-  },
-  cardImage: {
-    width: "100%",
-    height: 100,
-  },
-  cardText: {
-    fontSize: 14,
-    // fontFamily: fonts.medium,
-    padding: 10,
-    color: color.textDark,
-    textAlign: "center",
-  },
-  ctaContainer: {
-    flexDirection: "row",
-    borderRadius: 10,
-    margin: 20,
-    padding: 15,
-    alignItems: "center",
-  },
-  ctaTextContainer: {
-    flex: 1,
-  },
-  ctaTitle: {
-    fontSize: 24,
-    width: "60%",
-    // fontFamily: fonts.medium,
-    color: color.textDark,
-    marginBottom: 5,
-    lineHeight: 25,
-  },
-  ctaSubTitle: {
-    fontSize: 12,
-    // fontFamily: fonts.regular,
-    color: color.textLight || "#555",
-  },
-  ctaImage: {
-    width: 60,
-    height: 60,
-    borderRadius: 30,
-    marginLeft: 10,
-  },
-  ctaButton: {
-    backgroundColor: color.black,
-    padding: 14,
-    borderRadius: 10,
-    marginHorizontal: 20,
-    marginBottom: 30,
-    alignItems: "center",
-  },
-  ctaButtonText: {
-    color: color.white,
-    fontSize: 14,
   },
 });

@@ -4,8 +4,11 @@ import CustomText from "../components/CustomText";
 import globalStyles from "../styles/globalStyles";
 import { Ionicons } from "@expo/vector-icons";
 import { color } from "../styles/theme";
+import { useNavigation } from "@react-navigation/native";
 
 export default function LeaveRequestList() {
+    const navigation = useNavigation();
+  
   const leaveData = [
     {
       subject: "Leave subject here",
@@ -63,7 +66,7 @@ export default function LeaveRequestList() {
             globalStyles.mb4,
           ]}
         >
-          <TouchableOpacity style={styles.addButton}>
+          <TouchableOpacity   onPress={() => navigation.navigate("leaveRequest")} style={styles.addButton}>
             <CustomText style={styles.addButtonText}>Add Request</CustomText>
           </TouchableOpacity>
           <TouchableOpacity style={styles.iconButton}>

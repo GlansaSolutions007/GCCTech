@@ -48,12 +48,18 @@ export default function LoginScreen() {
       );
 
       if (response.data?.success) {
+        const { email, token, technicianid } = response.data;
+
         login({
-          email: response.data.email,
-          token: response.data.token,
+          email,
+          token,
+          technicianid,
         });
 
-        navigation.replace("CustomerTabs");
+        navigation.replace("CustomerTabs", {
+          screen: "Profile",
+          params: { technicianid: response.data.technicianid },
+        });
       } else {
         throw new Error(response.data?.message || "Login failed.");
       }
