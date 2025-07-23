@@ -24,33 +24,31 @@ export default function ProfileScreen() {
   const navigation = useNavigation();
 
   useEffect(() => {
+    let isMounted = true;
     const fetchTechnicianDetails = async () => {
       try {
-        // const storedTechId = await AsyncStorage.getItem("technicianid");
-        // await AsyncStorage.setItem("technicianid", "78");
         const storedTechId = await AsyncStorage.getItem("technicianid");
         const techId = storedTechId || "78";
 
-        console.log("Fetching technician data for ID:", techId);
-
-        const response = await axios.get(
-          `https://api.mycarsbuddy.com/api/TechniciansDetails/technicianid?technicianid=${techId}`
+        const fetchPromise = axios.get(
+          `https://api.mycarsbuddy.com/api/TechniciansDetails/technicianid?technicianid=${techId}`,
+          { timeout: 2000 }
         );
 
-        if (response.data?.status && response.data?.data) {
+        const response = await fetchPromise;
+
+        if (isMounted && response.data?.status && response.data?.data) {
           setProfileData(response.data.data);
-          console.log("Profile data fetched:", response.data.data);
-        } else {
-          console.warn("Unexpected response:", response.data);
         }
       } catch (error) {
         console.error("Failed to fetch technician details:", error);
       } finally {
-        setLoading(false);
+        if (isMounted) setLoading(false);
       }
     };
 
     fetchTechnicianDetails();
+    return () => { isMounted = false; };
   }, []);
 
   const review = () => navigation.navigate("reviews");
@@ -84,6 +82,12 @@ export default function ProfileScreen() {
           >
             <Image
               source={
+                  require("../../../assets/images/persontwo.jpg")
+              }
+              style={styles.avatar}
+            />
+            {/* <Image
+              source={
                 profileData?.ProfileImage
                   ? {
                       uri: `https://api.mycarsbuddy.com/${profileData.ProfileImage}`,
@@ -91,7 +95,7 @@ export default function ProfileScreen() {
                   : require("../../../assets/images/persontwo.jpg")
               }
               style={styles.avatar}
-            />
+            /> */}
           </View>
           <View>
             <CustomText style={[globalStyles.f24Bold, globalStyles.primary]}>

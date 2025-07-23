@@ -10,10 +10,10 @@ import TechnicianTabNavigator from "./TechnicianTabNavigator";
 import { useAuth } from "../contexts/AuthContext";
 import CustomerStackNavigator from "./CustomerStackNavigator";
 import CustomText from "../components/CustomText";
+import LiveTrackingMap from "../components/LiveTrackingMap";
 const Stack = createNativeStackNavigator();
 
 export default function RootNavigator() {
-
   const { user } = useAuth(); // Get user from auth context
   // const user = { role: '' }; // Simulate auth state
 
@@ -28,6 +28,7 @@ export default function RootNavigator() {
             name="CustomerTabs"
             component={CustomerStackNavigator}
           />
+          <Stack.Screen name="liveTrackingMap" component={LiveTrackingMap} />
         </>
       );
     }

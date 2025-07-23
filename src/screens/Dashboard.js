@@ -26,6 +26,9 @@ export default function Dashboard() {
   const customerInfo = () => {
     navigation.navigate("customerInfo");
   };
+  const LiveTrackingMap = () => {
+    navigation.navigate("LiveTrackingMap");
+  };
   return (
     <ScrollView
       style={[globalStyles.bgcontainer]}
@@ -141,7 +144,7 @@ export default function Dashboard() {
               styles.service,
             ]}
           >
-            <TouchableOpacity style={styles.startButton}>
+            <TouchableOpacity onPress={LiveTrackingMap} style={styles.startButton}>
               <Text style={[globalStyles.f14Bold, globalStyles.textWhite]}>
                 Start The Service
               </Text>

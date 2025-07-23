@@ -9,6 +9,7 @@ import PrivacyPolicy from "../components/PrivacyPolicy";
 import TermsAndConditions from "../components/TermsAndCondition";
 import LeaveRequest from "../screens/LeaveRequest";
 import LeaveRequestList from "../screens/LeaveRequestList";
+import LiveTrackingMap from "../components/LiveTrackingMap";
 
 const Stack = createNativeStackNavigator();
 
@@ -62,6 +63,11 @@ export default function CustomerStackNavigator() {
         name="leaveRequestList"
         component={LeaveRequestList}
         options={{ title: "Leave Request List" }}
+      />
+      <Stack.Screen
+        name="LiveTrackingMap"
+        component={LiveTrackingMap}
+        options={{ title: "Live Tracking Map" }}
       />
     </Stack.Navigator>
   );
