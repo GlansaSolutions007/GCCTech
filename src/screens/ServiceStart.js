@@ -259,6 +259,18 @@ export default function ServiceStart() {
             </View>
             <CustomText
               style={[
+                globalStyles.f28Medium,
+                globalStyles.neutral500,
+                globalStyles.mt2,
+              ]}
+            >
+              Hey{" "}
+              <CustomText style={[globalStyles.f28Bold, globalStyles.primary]}>
+                Buddy
+              </CustomText>
+            </CustomText>
+            <CustomText
+              style={[
                 globalStyles.f12Regular,
                 globalStyles.neutral500,
                 globalStyles.mt2,
