@@ -273,14 +273,14 @@ export default StyleSheet.create({
   // inputBox  ----------- start
   inputBox: {
     borderWidth: 1,
-    borderColor: "#ccc",
+    borderColor: color.secondary,
     borderRadius: 10,
     backgroundColor: "#fff",
     paddingVertical: 16,
     paddingHorizontal: 14,
     justifyContent: "center",
   },
-    textArea: {
+  textArea: {
     backgroundColor: "#fff",
     borderRadius: 10,
     borderColor: "#ccc",
@@ -292,7 +292,14 @@ export default StyleSheet.create({
   //  inputBox .............. end
 
   // Login button ----------- start
-
+  yellowbutton: {
+    backgroundColor: "#F8B400",
+    paddingVertical: 18,
+    borderRadius: 12,
+    marginTop: 20,
+    alignItems: "center",
+    marginBottom: 12,
+  },
   // Login button .............. end
 
   // Card ----------start
@@ -300,7 +307,6 @@ export default StyleSheet.create({
     borderRadius: 20,
     width: "90%",
     alignSelf: "flex-end",
-  
   },
   card: {
     borderRadius: 20,

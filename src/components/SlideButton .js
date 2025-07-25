@@ -8,11 +8,12 @@ import Animated, {
   runOnJS,
 } from 'react-native-reanimated';
 import { PanGestureHandler } from 'react-native-gesture-handler';
+import globalStyles from '../styles/globalStyles';
 
 const { width } = Dimensions.get('window');
 const SLIDER_WIDTH = width * 0.9;
-const BUTTON_WIDTH = 130;
-const BUTTON_HEIGHT = 60;
+const BUTTON_WIDTH = 120;
+const BUTTON_HEIGHT = 50;
 
 const SlideButton = () => {
   const translateX = useSharedValue(0);
@@ -58,7 +59,7 @@ const SlideButton = () => {
       <View style={styles.slider}>
         <PanGestureHandler onGestureEvent={gestureHandler}>
           <Animated.View style={[styles.button, animatedStyle]}>
-            <Text style={styles.buttonText}>Start Ride</Text>
+            <Text style={[globalStyles.f16Bold, globalStyles.textWhite]}>Start Ride</Text>
           </Animated.View>
         </PanGestureHandler>
       </View>
@@ -87,14 +88,9 @@ const styles = StyleSheet.create({
     height: BUTTON_HEIGHT,
     backgroundColor: '#707070',
     borderRadius: 12,
-    padding: 20,
     justifyContent: 'center',
     alignItems: 'center',
  
   },
-  buttonText: {
-    color: '#fff',
-    fontWeight: 'bold',
-    fontSize: 16,
-  },
+
 });

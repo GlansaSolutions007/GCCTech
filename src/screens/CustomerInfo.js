@@ -16,14 +16,16 @@ import carpic from "../../assets/images/Group 420.png";
 import { color } from "../styles/theme";
 import { Ionicons } from "@expo/vector-icons";
 import SlideButton from "../components/SlideButton ";
+import { useNavigation } from "@react-navigation/native";
 
 export default function CustomerInfo() {
+  const navigation = useNavigation();
+  const StartedService = () => {
+    navigation.navigate("StartedService");
+  };
   return (
-    <ScrollView
-      style={[globalStyles.bgcontainer]}
-      contentContainerStyle={{ paddingBottom: 30 }}
-    >
-      <View style={[globalStyles.container]}>
+    <ScrollView style={[globalStyles.bgcontainer]}>
+      <View style={[globalStyles.container, globalStyles.pb4]}>
         <AvailabilityHeader />
 
         <CustomText style={[globalStyles.f20Bold, globalStyles.primary]}>
@@ -211,8 +213,17 @@ export default function CustomerInfo() {
             </CustomText>
           </View>
         </View>
+      </View>
+
+      <View
+        style={[globalStyles.container, globalStyles.bgBlack, globalStyles.pb5]}
+      >
         <CustomText
-          style={[globalStyles.f16Bold, globalStyles.black, globalStyles.mt2]}
+          style={[
+            globalStyles.f16Bold,
+            globalStyles.textWhite,
+            globalStyles.mt2,
+          ]}
         >
           Customer Note
         </CustomText>
@@ -221,24 +232,26 @@ export default function CustomerInfo() {
             globalStyles.flexrow,
             globalStyles.justifysb,
             globalStyles.mt2,
-            globalStyles.bgprimary,
+            globalStyles.bgwhite,
             globalStyles.p4,
-            globalStyles.borderRadiuslarge,
+            globalStyles.radius,
           ]}
         >
           <View style={globalStyles.alineSelfcenter}>
-            <CustomText
-              style={[globalStyles.f12Medium, globalStyles.textWhite]}
-            >
+            <CustomText style={[globalStyles.f12Medium, globalStyles.black]}>
               Please focus on stain near back seat. Car was used for outstation
               last week.
             </CustomText>
           </View>
         </View>
 
-        <View style={[globalStyles.mt4]}>
+        <View style={[globalStyles.mt2]}>
           <CustomText
-            style={[globalStyles.f16Bold, globalStyles.black, globalStyles.mt2]}
+            style={[
+              globalStyles.f16Bold,
+              globalStyles.textWhite,
+              globalStyles.mt2,
+            ]}
           >
             Reference Images
           </CustomText>
@@ -301,6 +314,11 @@ export default function CustomerInfo() {
           <SafeAreaView style={{ flex: 1 }}>
             <SlideButton onComplete={() => Alert.alert("✅ Ride Started")} />
           </SafeAreaView>
+          <TouchableOpacity onPress={StartedService} style={globalStyles.yellowbutton}>
+            <CustomText style={[globalStyles.f12Bold]}>
+              Reached to the customer
+            </CustomText>
+          </TouchableOpacity>
         </View>
       </View>
     </ScrollView>
@@ -308,6 +326,7 @@ export default function CustomerInfo() {
 }
 
 const styles = StyleSheet.create({
+
   arrowButton: {
     paddingHorizontal: 8,
   },
