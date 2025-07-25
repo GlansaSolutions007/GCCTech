@@ -20,8 +20,8 @@ import { useNavigation } from "@react-navigation/native";
 
 export default function CustomerInfo() {
   const navigation = useNavigation();
-  const StartedService = () => {
-    navigation.navigate("StartedService");
+  const ServiceStart = () => {
+    navigation.navigate("ServiceStart");
   };
   return (
     <ScrollView style={[globalStyles.bgcontainer]}>
@@ -314,7 +314,10 @@ export default function CustomerInfo() {
           <SafeAreaView style={{ flex: 1 }}>
             <SlideButton onComplete={() => Alert.alert("✅ Ride Started")} />
           </SafeAreaView>
-          <TouchableOpacity onPress={StartedService} style={globalStyles.yellowbutton}>
+          <TouchableOpacity
+            onPress={ServiceStart}
+            style={globalStyles.yellowbutton}
+          >
             <CustomText style={[globalStyles.f12Bold]}>
               Reached to the customer
             </CustomText>
@@ -326,7 +329,6 @@ export default function CustomerInfo() {
 }
 
 const styles = StyleSheet.create({
-
   arrowButton: {
     paddingHorizontal: 8,
   },

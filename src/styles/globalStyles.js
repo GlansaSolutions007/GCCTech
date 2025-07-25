@@ -300,6 +300,14 @@ export default StyleSheet.create({
     alignItems: "center",
     marginBottom: 12,
   },
+  blackButton: {
+    backgroundColor: color.black,
+    paddingVertical: 18,
+    borderRadius: 12,
+    marginTop: 20,
+    alignItems: "center",
+    marginBottom: 12,
+  },
   // Login button .............. end
 
   // Card ----------start

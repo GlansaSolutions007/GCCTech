@@ -10,7 +10,8 @@ import TermsAndConditions from "../components/TermsAndCondition";
 import LeaveRequest from "../screens/LeaveRequest";
 import LeaveRequestList from "../screens/LeaveRequestList";
 import LiveTrackingMap from "../components/LiveTrackingMap";
-import StartedService from "../screens/StartedService";
+import ServiceStart from "../screens/ServiceStart";
+import ServiceEnd from "../screens/ServiceEnd";
 
 const Stack = createNativeStackNavigator();
 
@@ -71,9 +72,14 @@ export default function CustomerStackNavigator() {
         options={{ title: "Live Tracking Map" }}
       />
       <Stack.Screen
-        name="StartedService"
-        component={StartedService}
-        options={{ title: "Started Service" }}
+        name="ServiceStart"
+        component={ServiceStart}
+        options={{ title: "Service Start" }}
+      />
+      <Stack.Screen
+        name="ServiceEnd"
+        component={ServiceEnd}
+        options={{ title: "Service End" }}
       />
     </Stack.Navigator>
   );
